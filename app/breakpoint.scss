@@ -1,0 +1,9 @@
+// Mobile phones
+$small-screen: 921px;
+
+// Small devices
+@mixin sm {
+    @media (max-width: #{$small-screen}) {
+        @content;
+    }
+}

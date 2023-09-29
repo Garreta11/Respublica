@@ -1,0 +1,28 @@
+.title {
+
+    border-bottom: 1px solid var(--respublica-white);
+    padding-bottom: 27px;
+    margin-bottom: 30px;
+
+    display: flex;
+    justify-content: space-between;
+
+    &_text {
+        display: flex;
+        align-items: center;
+        gap: 25px;
+        font-size: 28px;
+        font-weight: 700;
+        transition: all ease 0.5s;
+        &::before {
+            content: url("/rectangle-green.svg");
+            width: 27px;
+            height: 36px;
+        }
+    }
+
+    &_btn {
+        
+    }
+
+}

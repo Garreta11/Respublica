@@ -1,0 +1,65 @@
+.audio {
+    cursor: pointer;
+    position: fixed;
+    left: 30px;
+    bottom: 30px;
+    z-index: 1;
+
+    &_loader {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+    }
+
+    &_wave {
+        height: 50px;
+        width: 50px;
+        fill: #fff;
+
+        &_sound {
+            path {
+                &.audio_line_10 {
+                    fill: transparent;
+                }
+            }
+        }
+
+        &_silence {
+            path {
+                animation-play-state: paused;
+                &.audio_line_10 {
+                    fill: #fff;
+                }
+            }
+        }
+
+        & .audio_line_10 {
+            transition: all ease 0.5s;
+        }
+    }
+
+    @for $i from 1 through 9 {
+        &_line_#{$i} {
+            animation: pulse 1s infinite;
+            animation-delay: $i * .15s;
+        }
+    }
+
+    @keyframes pulse {
+        0% {
+            transform: scaleY(1);
+            transform-origin: 50% 50%;
+        }
+        
+        50% {
+            transform: scaleY(.7);
+            transform-origin: 50% 50%;
+        }
+        
+        100% {
+            transform: scaleY(1);
+            transform-origin: 50% 50%;
+        }
+    }
+}
