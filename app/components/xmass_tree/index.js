@@ -7,11 +7,20 @@ import { Clone } from '@react-three/drei';
 
 import { useScroll, useTransform } from "framer-motion"
 import { motion } from "framer-motion-3d"
-import * as THREE from 'three'
+// import { useControls } from 'leva'
 
 const transition = { duration: 5, ease: [0.43, 0.13, 0.23, 0.96] };
 
 const Scene = ({ tree, rotation, start }) => {
+
+    // const treeConfig = useControls({
+    //     x: { value: 0, min: -3, max: 3, step: 0.01 },
+    //     y: { value: 0, min: -3, max: 3, step: 0.01 },
+    //     z: { value: 0, min: -3, max: 3, step: 0.01 },
+    //     rotX: { value: 0, min: -90 * Math.PI, max: 90 * Math.PI, step: 0.01 },
+    //     rotY: { value: 0, min: -90 * Math.PI, max: 90 * Math.PI, step: 0.01 },
+    //     rotZ: { value: 0, min: -90 * Math.PI, max: 90 * Math.PI, step: 0.01 },
+    // })
 
     const variants = {
         hidden: { 
@@ -19,11 +28,19 @@ const Scene = ({ tree, rotation, start }) => {
             rotateX: 90 * Math.PI / 180
         },
         visible: {
-            scale: 4.5,
+            scale: 1.5,
             rotateX: 90 * Math.PI / 180
         },
+        // starts: {
+        //     scale: [4.5, 4.5, 4.5],
+        //     x: [0, 2, 2],
+        //     y: [0, 1, 1],
+        //     rotateX: [90 * Math.PI / 180, 90 * Math.PI / 180, 0],
+        //     rotateY:[0, 0, 0],
+        //     rotateZ:[0, 45 * Math.PI / 180, 0]
+        // },
         starts: {
-            scale: [4.5, 0.5, 0.5],
+            scale: [1.5, 0.65, 0.65],
             x: [0, 0, 2],
             y: [0, 0, 1],
             rotateX: [90 * Math.PI / 180, 90 * Math.PI / 180, 0]
@@ -43,8 +60,10 @@ const Scene = ({ tree, rotation, start }) => {
                         animate={start ? ['starts']: 'visible'}
                         variants={variants}
                         transition={transition}
-                        position={[0, 0, 0]}
+                        // position={[0, 0, 0]}
                         rotation-y={rotation}
+                        // position={[treeConfig.x, treeConfig.y, treeConfig.z]}
+                        // rotation={[treeConfig.rotX, treeConfig.rotY, treeConfig.rotZ]}
                     >
                         <Clone object={tree.scenes[0]} />
                     </motion.mesh>                 
