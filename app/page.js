@@ -116,7 +116,7 @@ export default function Home() {
               <Footer />
             </>
           )}
-        </MousePositionProvider>
+        </MousePositionProvider>    
     </main>
   )
 }
