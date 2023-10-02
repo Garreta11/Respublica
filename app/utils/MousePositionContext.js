@@ -10,9 +10,14 @@ export const useMousePosition = () => {
 export const MousePositionProvider = ({ children }) => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
+  
   useEffect(() => {
     const handleMouseMove = (e) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
+      setMousePosition(
+        {
+          x: (e.clientX - (window.innerWidth / 2)) / window.innerWidth,
+          y: (e.clientY - (window.innerHeight / 2)) / window.innerHeight
+        });
     };
 
     document.addEventListener('mousemove', handleMouseMove);

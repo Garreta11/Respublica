@@ -2,7 +2,7 @@
 
 import { Canvas, useThree } from "@react-three/fiber"
 import { useRef, useEffect } from 'react'
-// import { useMousePosition } from '../../utils/MousePositionContext';
+import { useMousePosition } from '../../utils/MousePositionContext';
 import styles from './santaclaus.module.scss'
 import { useSpring, useMotionValue } from 'framer-motion'
 import { motion } from "framer-motion-3d"
@@ -26,19 +26,10 @@ export default function  santaclaus({santa}) {
         mousePos.y.set((clientY - (window.innerHeight / 2)) / window.innerHeight)
     }
 
-
-    // useEffect(() => {
-    //     const observer = new IntersectionObserver((entries) => {
-    //         const entry = entries[0]
-    //         console.log(entry)
-    //     })
-    //     observer.observe(santaRef.current)
-    // }, [])
-
     useEffect(() => {
         window.addEventListener('mousemove', manageMouseMove)
         return () => {window.addEventListener('mousemove', manageMouseMove)}
-    })
+    }, [])
 
     const handleClick = () => {
         

@@ -1,5 +1,7 @@
 'use client'
 
+import MerryXmass from "../merryXmass";
+
 import { gsap, ScrollTrigger } from "gsap/all";
 import styles from "./video.module.scss";
 import { useRef, useEffect, useState } from 'react'
@@ -8,7 +10,7 @@ import Link from "next/link";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function video() {
+export default function video({texture}) {
 
     const textRef = useRef()
     const videoRef = useRef()
@@ -39,12 +41,12 @@ export default function video() {
     return(
         <div id="video" className={styles.vid}>
             <div className={styles.vid_wrapper}>
-                <p
+                <div
                     ref={textRef}
                     className={styles.vid_wrapper_text}
                 >
-                    MERRY CHRISTMAS
-                </p>
+                    <MerryXmass texture={texture}/>
+                </div>
                 <motion.video
                     className={styles.vid_wrapper_video}
                     ref={videoRef}

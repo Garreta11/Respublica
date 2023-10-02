@@ -1,29 +1,22 @@
 'use client'
 
 import styles from './page.module.scss'
-
 import { MousePositionProvider } from './utils/MousePositionContext'
-
 import Lenis from '@studio-freight/lenis'
-
 import { useEffect, useState } from 'react'
-
 import Loadingpage from './components/loadingpage'
-
 import Xmasstree from "./components/xmass_tree"
-
 import Intro from './components/intro'
 import Wedonate from './components/wedonate'
 import Video from './components/video'
 import Xmass from './components/xmass_balls'
 import Wishes from './components/wishes'
 import AudioIcon from './components/audio_icon'
-
 import Footer from './components/footer'
 
-import Resources from './utils/Resources';
 import sources from './utils/sources';
 
+import { TextureLoader } from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 
 export default function Home() {
@@ -34,6 +27,7 @@ export default function Home() {
 
   const [santaModel, setSantaModel] = useState()
   const [treeModel, setTreeModel] = useState()
+  const [merryText, setMerryText] = useState()
 
   let loaders
   let toLoad
@@ -41,7 +35,6 @@ export default function Home() {
   let loaded = 0
 
   useEffect(() => {
-    const resources = new Resources(sources);
     toLoad = sources.length;
     setLoaders()
     startLoading(sources)
@@ -59,6 +52,7 @@ export default function Home() {
   const setLoaders = () => {
     loaders = {};
     loaders.gltfLoader = new GLTFLoader();
+    loaders.textureLoader = new TextureLoader();
   }
 
   const startLoading = (allSources) => {
@@ -66,14 +60,21 @@ export default function Home() {
     for (const source of allSources) {
         if (source.type === "gltfModel") {
           loaders.gltfLoader.load(source.path, (model) => {
-              if (source.name === 'santaclaus') {
-                setSantaModel(model)
-              }
+            if (source.name === 'santaclaus') {
+              setSantaModel(model)
+            }
 
-              if (source.name === 'tree') {
-                setTreeModel(model)
-              }
-              sourceLoaded(source, model);
+            if (source.name === 'tree') {
+              setTreeModel(model)
+            }
+            sourceLoaded(source, model);
+          });
+        } else if (source.type === "textureModel") {
+          loaders.textureLoader.load(source.path, (texture) => {
+            if (source.name === 'merryChristmas') {
+              setMerryText(texture)
+            }
+            sourceLoaded(source, texture);
           });
         }
     }     
@@ -98,9 +99,6 @@ export default function Home() {
       {!start && (
         <Loadingpage tree={treeModel} showbtn={isLoaded} sendDataToParent={receiveDataFromButton}/>
       )}
-
-      
-
         <MousePositionProvider>
           
           <div className={styles.main_tree}>
@@ -110,15 +108,15 @@ export default function Home() {
           {start && (
             <>
               <Intro />
-              <Wedonate santa={santaModel}/>
-              <Video />
+              <Wedonate santa={santaModel} />
+              <Video texture={merryText}/>
               <Xmass />
               <Wishes />
               <AudioIcon/>
               <Footer />
             </>
           )}
-        </MousePositionProvider>
+        </MousePositionProvider>    
     </main>
   )
 }
