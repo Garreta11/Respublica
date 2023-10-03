@@ -1,7 +1,9 @@
 'use client'
 
 import styles from './page.module.scss'
+
 import { MousePositionProvider } from './utils/MousePositionContext'
+
 import Lenis from '@studio-freight/lenis'
 import { useEffect, useState } from 'react'
 import Loadingpage from './components/loadingpage'
@@ -13,6 +15,9 @@ import Xmass from './components/xmass_balls'
 import Wishes from './components/wishes'
 import AudioIcon from './components/audio_icon'
 import Footer from './components/footer'
+
+import Header from './components/header'
+import HeaderInit from './components/headerInit'
 
 import sources from './utils/sources';
 
@@ -95,9 +100,11 @@ export default function Home() {
 
   return (
     <main className={styles.main}>
-
       {!start && (
-        <Loadingpage tree={treeModel} showbtn={isLoaded} sendDataToParent={receiveDataFromButton}/>
+        <>
+          <HeaderInit />
+          <Loadingpage tree={treeModel} showbtn={isLoaded} sendDataToParent={receiveDataFromButton}/>
+        </>
       )}
         <MousePositionProvider>
           
@@ -107,6 +114,7 @@ export default function Home() {
 
           {start && (
             <>
+              <Header />
               <Intro />
               <Wedonate santa={santaModel} />
               <Video texture={merryText}/>

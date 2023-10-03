@@ -1,6 +1,8 @@
 'use client'
 
 import { Canvas, useThree } from "@react-three/fiber"
+
+import { useInView } from 'react-intersection-observer'
 import { useRef, useEffect } from 'react'
 import { useMousePosition } from '../../utils/MousePositionContext';
 import styles from './santaclaus.module.scss'
@@ -9,11 +11,16 @@ import { motion } from "framer-motion-3d"
 
 import Particlessnow from "../particles_snow"
 
+import { OrbitControls } from "@react-three/drei";
+
 const transition = { duration: 3, ease: [0.43, 0.13, 0.23, 0.96] };
 
 export default function  santaclaus({santa}) {
 
     const santaRef = useRef()
+
+    const { ref, inView } = useInView()
+    console.log(inView)
 
     const mousePos = {
         x: useMotionValue(0),
@@ -42,11 +49,17 @@ export default function  santaclaus({santa}) {
     
 
     return(
-        <div className={styles.scene}>
-            <Canvas className={styles.scene_canvas} ref={santaRef}>
+        <div className={styles.scene} ref={ref}>
+            <Canvas className={styles.scene_canvas} ref={santaRef} invalidateFrameloop={!inView}>
+
+                <OrbitControls />
+
                 <ambientLight intensity={1} />
                 <pointLight position={[2, 1, 1]} intensity={5}/>
                 <pointLight position={[-2, -1, 1]} intensity={5}/>
+
+                <Particlessnow />
+
                 {santa && ( 
                     <motion.mesh
                         onClick={handleClick}
@@ -62,7 +75,7 @@ export default function  santaclaus({santa}) {
                     </motion.mesh>
                 )}
 
-                <Particlessnow />
+                
 
             </Canvas>
         </div>

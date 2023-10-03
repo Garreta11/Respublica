@@ -5,9 +5,45 @@
     align-items: flex-end;
     justify-content: center;
 
+    &_stars {
+        &_left {            
+            position: absolute;
+            height: 75%;
+            top: 60px;
+            left: 47px;
+        }
+
+        &_right {            
+            position: absolute;
+            height: 75%;
+            top: 60px;
+            right: 47px;
+        }
+    }
+
+    &_text {
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        left: 50%;
+        display: flex;
+        justify-content: space-between;
+        width: calc(100% - 250px);
+        height: 100%;
+        align-items: center;
+        transform: translate(-50%, 0px);
+        font-size: 38px;
+    }
+
     &_btn {
         position: relative;
         bottom: 100px;
         z-index: 1;
+
+        gap: 19px;
+
+        &::after {
+            transform: rotate(-90deg);
+        }
     }
 }

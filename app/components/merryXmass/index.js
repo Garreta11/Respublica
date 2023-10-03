@@ -1,27 +1,23 @@
 'use client'
 
 import { Canvas, extend, useFrame, useThree } from "@react-three/fiber"
-import { OrbitControls, shaderMaterial, useFBO } from '@react-three/drei';
-import { useState, useRef, useEffect, useMemo } from "react";
+import { shaderMaterial } from '@react-three/drei';
+import { useState, useRef, useMemo } from "react";
 import * as THREE from 'three'
 import { useControls } from 'leva'
-import { useSpring, useMotionValue } from 'framer-motion'
-import { useMousePosition } from "../../utils/MousePositionContext";
 
 import TouchTexture from "../touchtexture";
-
-import gsap from "gsap";
 
 const ParticleMaterial = shaderMaterial(
     { 
         uTime: 0,
         uRandom: 0.0,
         uDepth: 0.0,
-        uSize: 0.14,
+        uSize: 0.0,
         uTextureSize: new THREE.Vector2(0, 0),
         uTexture: null,
         uTouch: null,
-        uTouchAmplitude: 20.0
+        uTouchAmplitude: 100.0
 
     },
     // vertex shader
@@ -119,6 +115,7 @@ const ParticleMaterial = shaderMaterial(
             vec4 finalPosition = projectionMatrix * mvPosition;
 
             gl_Position = finalPosition;
+            gl_PointSize = 10.;
         }
     `,
     // fragment shader
@@ -143,8 +140,8 @@ const ParticleMaterial = shaderMaterial(
             vec4 colB = vec4(grey, grey, grey, 1.0); 
 
             // circle
-            float border = 0.3;
-            float radius = 1.0;
+            float border = 0.9;
+            float radius = 10.0;
             
             float dist = radius - distance(uv, vec2(0.5));
             float t = smoothstep(0.0, border, dist);
@@ -185,8 +182,8 @@ const Scene = ({texture}) => {
         return {
             uRandom: { value: 0, min: 0, max: 10.0, step: 0.01 },
             uDepth: { value: 0, min: 0, max: 10.0, step: 0.01 },
-            uSize: { value: 0.14, min: 0, max: 10.0, step: 0.01 },
-            uTouchAmplitude: { value: 20., min: 10.0, max: 100.0, step: 0.01 },
+            uSize: { value: 0., min: 0, max: 10.0, step: 0.01 },
+            uTouchAmplitude: { value: 100., min: 10.0, max: 100.0, step: 0.01 },
         }
     }, [])
     const particles = useControls('Particles', options)
@@ -319,6 +316,8 @@ const Scene = ({texture}) => {
                     uRandom={particles.uRandom}
                     uDepth={particles.uDepth}
                     uTouchAmplitude={particles.uTouchAmplitude}
+                    depthWrite={false}
+                    sizeAttenuation={true}
                 />
                 
             </points>
