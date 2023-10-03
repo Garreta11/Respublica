@@ -59,7 +59,7 @@ export default function  particlessnow( {tree} ) {
     });
 
     return(
-        <points ref={points}>
+        <points ref={points} >
             <bufferGeometry>
                 <bufferAttribute attach={"attributes-position"} {...positions} />
             </bufferGeometry>
