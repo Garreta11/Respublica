@@ -1,3 +1,5 @@
+@import '../../breakpoint.scss';
+
 .wedonate {
     padding-top: var(--padding-top);
     padding-bottom: var(--padding-bottom);
@@ -7,9 +9,19 @@
     position: relative;
     height: 100vh;
 
+    @include sm {
+        height: auto;
+        padding-top: 50vh;
+    }
+
     &_text {
         max-width: 439px;
         width: 50%;
+
+        @include sm {
+            width: 100%;
+            max-width: none;
+        }
     }
 
     &_trees {
@@ -33,6 +45,11 @@
             width: 36px;
             margin-bottom: 35px;
         }
+
+        @include sm {
+            display: none;
+        }
+
     }
 
 }

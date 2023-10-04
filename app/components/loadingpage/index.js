@@ -24,7 +24,7 @@ export default function  loadingpage( { tree, showbtn, sendDataToParent } ) {
         <div className={styles.loadingpage}>
             <motion.img
                 initial={{ scale: 0, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
+                animate={{ scale: 1, opacity: 0.5 }}
                 exit={{ scale: 0, opacity: 0 }}
                 transition={transition}
                 className={styles.loadingpage_stars_left}
@@ -32,7 +32,7 @@ export default function  loadingpage( { tree, showbtn, sendDataToParent } ) {
             />
             <motion.img
                 initial={{ scale: 0, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
+                animate={{ scale: 1, opacity: 0.5 }}
                 exit={{ scale: 0, opacity: 0 }}
                 transition={transition}
                 className={styles.loadingpage_stars_right}

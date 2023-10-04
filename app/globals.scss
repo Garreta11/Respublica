@@ -27,11 +27,19 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'Roboto-Bold';
+  src: url('/fonts/Roboto/Roboto-Bold.ttf') format('truetype');
+  /* Add more src declarations for different font formats if needed */
+  font-weight: 700;
+  font-style: normal;
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  font-family: Roboto;
+  // font-family: Roboto;
 }
 
 html,

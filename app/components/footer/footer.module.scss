@@ -1,3 +1,5 @@
+@import '../../breakpoint.scss';
+
 $color--footer: #555659;
 
 .footer {
@@ -23,12 +25,23 @@ $color--footer: #555659;
     &_columns {
         display: flex;
         justify-content: space-between;
+
+        @include sm {
+            flex-direction: column;
+            gap: 50px;
+        }
     }
 
     &_column {
         width: 25%;
         padding-left: 15px;
         padding-right: 15px;
+
+        @include sm {
+            width: 100%;
+            padding-left: 0px;
+            padding-right: 0px;
+        }
 
         &_section {
             h4 {

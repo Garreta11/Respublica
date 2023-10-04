@@ -14,7 +14,7 @@ export default function  audio_icon() {
         const s = new Howl({
             src: ['/audio/song.mp3'],
             onload: () => {
-                // s.play()
+                s.play()
             }
         })
         setSound(s)

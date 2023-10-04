@@ -1,7 +1,7 @@
 'use client'
 
 import { Canvas, extend, useFrame, useThree } from "@react-three/fiber"
-import { shaderMaterial } from '@react-three/drei';
+import { shaderMaterial, OrthographicCamera, OrbitControls } from '@react-three/drei';
 import { useState, useRef, useMemo } from "react";
 import * as THREE from 'three'
 import { useControls } from 'leva'
@@ -14,7 +14,7 @@ const ParticleMaterial = shaderMaterial(
         uRandom: 0.0,
         uDepth: 0.0,
         uSize: 0.0,
-        uSizeParticle: 10.0,
+        uSizeParticle: 3.5,
         uTextureSize: new THREE.Vector2(0, 0),
         uTexture: null,
         uTouch: null,
@@ -163,7 +163,7 @@ extend({ ParticleMaterial })
 
 const Scene = ({texture}) => {
 
-    const { camera, mouse} = useThree();
+    const { camera, mouse, size } = useThree();
 
     const particlesRef = useRef()
     const materialRef = useRef()
@@ -180,16 +180,16 @@ const Scene = ({texture}) => {
 
     const raycaster = new THREE.Raycaster();
 
-    const options = useMemo(() => {
-        return {
-            uRandom: { value: 0, min: 0, max: 1.0, step: 0.01 },
-            uDepth: { value: 0, min: 0, max: 1.0, step: 0.01 },
-            uSize: { value: 0., min: 0, max: 10.0, step: 0.01 },
-            uTouchAmplitude: { value: 100., min: 10.0, max: 100.0, step: 0.01 },
-            uSizeParticle: { value: 3, min: 1.0, max: 100.0, step: 0.01 },
-        }
-    }, [])
-    const particles = useControls('Particles', options)
+    // const options = useMemo(() => {
+    //     return {
+    //         uRandom: { value: 0, min: 0, max: 1.0, step: 0.01 },
+    //         uDepth: { value: 0, min: 0, max: 1.0, step: 0.01 },
+    //         uSize: { value: 0., min: 0, max: 10.0, step: 0.01 },
+    //         uTouchAmplitude: { value: 100., min: 10.0, max: 100.0, step: 0.01 },
+    //         uSizeParticle: { value: 3.5, min: 1.0, max: 100.0, step: 0.01 },
+    //     }
+    // }, [])
+    // const particles = useControls('Particles', options)
 
     const discard = true
     // Use useMemo to memoize the customBufferGeometry
@@ -277,7 +277,6 @@ const Scene = ({texture}) => {
     useFrame(({ clock }) => {
         const time = clock.elapsedTime;
         materialRef.current.uniforms.uTime.value = time;
-
         
         if (touchTexture) {
             touchTexture.update()
@@ -286,13 +285,14 @@ const Scene = ({texture}) => {
             raycaster.setFromCamera(mouse, camera);
             const intersects = raycaster.intersectObject(touchRef.current);
             if (intersects.length > 0) {
-                const intersectionPoint = intersects[0].point;
                 const intersectionUV = intersects[0].uv;
                 if (touchTexture) touchTexture.addTouch(intersectionUV);
             }
         }
 
-
+        // update camera on resize
+        camera.aspect = size.width / size.height;
+        camera.updateProjectionMatrix();
     })
     
     return (
@@ -315,11 +315,11 @@ const Scene = ({texture}) => {
                     transparent={true}
                     uTexture={texture}
                     uTextureSize={new THREE.Vector2(widthTexture, heightTexture)}
-                    uSize={particles.uSize}
-                    uSizeParticle={particles.uSizeParticle}
-                    uRandom={particles.uRandom}
-                    uDepth={particles.uDepth}
-                    uTouchAmplitude={particles.uTouchAmplitude}
+                    // uSize={particles.uSize}
+                    // uSizeParticle={particles.uSizeParticle}
+                    // uRandom={particles.uRandom}
+                    // uDepth={particles.uDepth}
+                    // uTouchAmplitude={particles.uTouchAmplitude}
                     depthWrite={false}
                     sizeAttenuation={true}
                 />

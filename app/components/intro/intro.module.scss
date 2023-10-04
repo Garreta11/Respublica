@@ -71,6 +71,10 @@
                 animation: bouncing 0.5s ease infinite alternate;
             }
         }
+
+        @include sm {
+            display: none;
+        }
     }
 
     @keyframes fadeIn {
