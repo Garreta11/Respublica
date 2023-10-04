@@ -14,6 +14,7 @@ const ParticleMaterial = shaderMaterial(
         uRandom: 0.0,
         uDepth: 0.0,
         uSize: 0.0,
+        uSizeParticle: 10.0,
         uTextureSize: new THREE.Vector2(0, 0),
         uTexture: null,
         uTouch: null,
@@ -31,6 +32,7 @@ const ParticleMaterial = shaderMaterial(
         uniform float uRandom;
         uniform float uDepth;
         uniform float uSize;
+        uniform float uSizeParticle;
         uniform vec2 uTextureSize;
         uniform sampler2D uTexture;
         uniform sampler2D uTouch;
@@ -115,7 +117,7 @@ const ParticleMaterial = shaderMaterial(
             vec4 finalPosition = projectionMatrix * mvPosition;
 
             gl_Position = finalPosition;
-            gl_PointSize = 10.;
+            gl_PointSize = uSizeParticle;
         }
     `,
     // fragment shader
@@ -125,6 +127,12 @@ const ParticleMaterial = shaderMaterial(
 
         varying vec2 vPUv;
         varying vec2 vUv;
+
+        float circle(vec2 uv, float border) {
+            float radius = 0.5;
+            float dist = radius - distance(uv, vec2(0.5));
+            return smoothstep(0.0, border, dist);
+        }
 
         void main() {
 
@@ -140,18 +148,19 @@ const ParticleMaterial = shaderMaterial(
             vec4 colB = vec4(grey, grey, grey, 1.0); 
 
             // circle
-            float border = 0.9;
-            float radius = 10.0;
+            // float border = 0.9;
+            // float radius = 10.0;
             
-            float dist = radius - distance(uv, vec2(0.5));
-            float t = smoothstep(0.0, border, dist);
+            // float dist = radius - distance(uv, vec2(0.5));
+            // float t = smoothstep(0.0, border, dist);
 
             // final color
             // color = colB;
             color = vec4(1.0);
-            color.a = t;
+            // color.a = t;
 
             gl_FragColor = color;
+            gl_FragColor.a *= circle(gl_PointCoord, 0.2);
             // gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
         }
     `
@@ -180,10 +189,11 @@ const Scene = ({texture}) => {
 
     const options = useMemo(() => {
         return {
-            uRandom: { value: 0, min: 0, max: 10.0, step: 0.01 },
-            uDepth: { value: 0, min: 0, max: 10.0, step: 0.01 },
+            uRandom: { value: 0, min: 0, max: 1.0, step: 0.01 },
+            uDepth: { value: 0, min: 0, max: 1.0, step: 0.01 },
             uSize: { value: 0., min: 0, max: 10.0, step: 0.01 },
             uTouchAmplitude: { value: 100., min: 10.0, max: 100.0, step: 0.01 },
+            uSizeParticle: { value: 3., min: 1.0, max: 100.0, step: 0.01 },
         }
     }, [])
     const particles = useControls('Particles', options)
@@ -313,6 +323,7 @@ const Scene = ({texture}) => {
                     uTexture={texture}
                     uTextureSize={new THREE.Vector2(widthTexture, heightTexture)}
                     uSize={particles.uSize}
+                    uSizeParticle={particles.uSizeParticle}
                     uRandom={particles.uRandom}
                     uDepth={particles.uDepth}
                     uTouchAmplitude={particles.uTouchAmplitude}
