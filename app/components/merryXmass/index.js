@@ -186,7 +186,7 @@ const Scene = ({texture}) => {
             uDepth: { value: 0, min: 0, max: 1.0, step: 0.01 },
             uSize: { value: 0., min: 0, max: 10.0, step: 0.01 },
             uTouchAmplitude: { value: 100., min: 10.0, max: 100.0, step: 0.01 },
-            uSizeParticle: { value: 3.5, min: 1.0, max: 100.0, step: 0.01 },
+            uSizeParticle: { value: 3, min: 1.0, max: 100.0, step: 0.01 },
         }
     }, [])
     const particles = useControls('Particles', options)
