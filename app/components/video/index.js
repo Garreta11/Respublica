@@ -17,6 +17,34 @@ export default function video({texture}) {
 
     const [heightVideo, setHeightVideo] = useState(0)
 
+    const [windowSize, setWindowSize] = useState({
+        width: window.innerWidth,
+        height: window.innerHeight,
+    });
+
+    useEffect(() => {
+        // Function to update window size
+        function handleResize() {
+          setWindowSize({
+            width: window.innerWidth,
+            height: window.innerHeight,
+          });
+
+          videoRef.current.style.maxHeight = windowSize.width  / (16/9) + "px";
+        }
+    
+        // Add event listener for window resize
+        window.addEventListener('resize', handleResize);
+
+        videoRef.current.style.maxHeight = windowSize.width  / (16/9) + "px";
+    
+        // Clean up the event listener when the component unmounts
+        return () => {
+          window.removeEventListener('resize', handleResize);
+        };
+    }, []); // Empty dependency array means this effect runs once after the initial render
+    
+
     useEffect(() => {
         let st = ScrollTrigger.create({
             trigger: textRef.current,

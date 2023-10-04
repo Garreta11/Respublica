@@ -2,7 +2,7 @@ export default [
     {
         name: 'tree',
         type: 'gltfModel',
-        path: '/models/tree_2.glb'
+        path: '/models/tree_3.glb'
     },
     {
         name: 'santaclaus',
@@ -12,6 +12,6 @@ export default [
     {
         name: 'merryChristmas',
         type: 'textureModel',
-        path: '/merry-christmas.jpg'
+        path: '/merry-christmas_2.jpg'
     },
 ]

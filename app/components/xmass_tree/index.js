@@ -40,9 +40,9 @@ const Scene = ({ tree, rotation, start }) => {
         //     rotateZ:[0, 45 * Math.PI / 180, 0]
         // },
         starts: {
-            scale: [1.5, 0.65, 0.65],
+            scale: [1.5, 0.45, 0.45],
             x: [0, 0, 2],
-            y: [0, 0, 1],
+            y: [0, 0, 1.5],
             rotateX: [90 * Math.PI / 180, 90 * Math.PI / 180, 0]
         },
     }
