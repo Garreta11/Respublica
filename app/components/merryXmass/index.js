@@ -147,17 +147,10 @@ const ParticleMaterial = shaderMaterial(
             float grey = colA.r * 0.21 + colA.g * 0.71 + colA.b * 0.07;
             vec4 colB = vec4(grey, grey, grey, 1.0); 
 
-            // circle
-            // float border = 0.9;
-            // float radius = 10.0;
-            
-            // float dist = radius - distance(uv, vec2(0.5));
-            // float t = smoothstep(0.0, border, dist);
-
             // final color
             // color = colB;
-            color = vec4(1.0);
-            // color.a = t;
+            // color = vec4(1.0);
+            color = vec4(0.68, 0.84, 0.2, 1.0);
 
             gl_FragColor = color;
             gl_FragColor.a *= circle(gl_PointCoord, 0.2);
@@ -193,7 +186,7 @@ const Scene = ({texture}) => {
             uDepth: { value: 0, min: 0, max: 1.0, step: 0.01 },
             uSize: { value: 0., min: 0, max: 10.0, step: 0.01 },
             uTouchAmplitude: { value: 100., min: 10.0, max: 100.0, step: 0.01 },
-            uSizeParticle: { value: 3., min: 1.0, max: 100.0, step: 0.01 },
+            uSizeParticle: { value: 3.5, min: 1.0, max: 100.0, step: 0.01 },
         }
     }, [])
     const particles = useControls('Particles', options)
