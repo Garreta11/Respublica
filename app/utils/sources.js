@@ -2,7 +2,7 @@ export default [
     {
         name: 'tree',
         type: 'gltfModel',
-        path: '/models/tree_3.glb'
+        path: '/models/tree.glb'
     },
     {
         name: 'santaclaus',
