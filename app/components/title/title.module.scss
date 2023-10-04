@@ -1,3 +1,5 @@
+@import '../../breakpoint.scss';
+
 .title {
 
     border-bottom: 1px solid var(--respublica-white);
@@ -6,6 +8,11 @@
 
     display: flex;
     justify-content: space-between;
+    
+    @include sm {
+        flex-direction: column;
+        gap: 30px;
+    }
 
     &_text {
         display: flex;
