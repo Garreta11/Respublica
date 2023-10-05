@@ -18,6 +18,10 @@
         font-size: 500px;
         font-weight: 700;
 
+        img {
+            width: 100%;
+        }
+
         &_left, &_right {
             display: flex;
         }

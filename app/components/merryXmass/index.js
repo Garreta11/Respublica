@@ -18,8 +18,7 @@ const ParticleMaterial = shaderMaterial(
         uTextureSize: new THREE.Vector2(0, 0),
         uTexture: null,
         uTouch: null,
-        uTouchAmplitude: 100.0
-
+        uTouchAmplitude: 50.0,
     },
     // vertex shader
     /*glsl*/`
@@ -40,6 +39,8 @@ const ParticleMaterial = shaderMaterial(
 
         varying vec2 vPUv;
         varying vec2 vUv;
+
+        varying float vPSize;
 
         // Simplex 2D noise
         vec3 permute(vec3 x) { return mod(((x*34.0)+1.0)*x, 289.0); }
@@ -75,6 +76,113 @@ const ParticleMaterial = shaderMaterial(
         float random(float n) {
             return fract(sin(n) * 43758.5453123);
         }
+
+
+        /*
+         * curl noise
+         */
+        vec3 mod289(vec3 x) {
+            return x - floor(x * (1.0 / 289.0)) * 289.0;
+        }
+        
+        vec2 mod289(vec2 x) {
+            return x - floor(x * (1.0 / 289.0)) * 289.0;
+        }
+        
+        float noise(vec2 v)
+        {
+            const vec4 C = vec4(0.211324865405187,  // (3.0-sqrt(3.0))/6.0
+                              0.366025403784439,  // 0.5*(sqrt(3.0)-1.0)
+                             -0.577350269189626,  // -1.0 + 2.0 * C.x
+                              0.024390243902439); // 1.0 / 41.0
+            // First corner
+            vec2 i  = floor(v + dot(v, C.yy) );
+            vec2 x0 = v -   i + dot(i, C.xx);
+        
+            // Other corners
+            vec2 i1;
+            //i1.x = step( x0.y, x0.x ); // x0.x > x0.y ? 1.0 : 0.0
+            //i1.y = 1.0 - i1.x;
+            i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+            // x0 = x0 - 0.0 + 0.0 * C.xx ;
+            // x1 = x0 - i1 + 1.0 * C.xx ;
+            // x2 = x0 - 1.0 + 2.0 * C.xx ;
+            vec4 x12 = x0.xyxy + C.xxzz;
+            x12.xy -= i1;
+        
+            // Permutations
+            i = mod289(i); // Avoid truncation effects in permutation
+            vec3 p = permute( permute( i.y + vec3(0.0, i1.y, 1.0 ))
+                + i.x + vec3(0.0, i1.x, 1.0 ));
+        
+            vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);
+            m = m*m ;
+            m = m*m ;
+        
+            // Gradients: 41 points uniformly over a line, mapped onto a diamond.
+            // The ring size 17*17 = 289 is close to a multiple of 41 (41*7 = 287)
+        
+            vec3 x = 2.0 * fract(p * C.www) - 1.0;
+            vec3 h = abs(x) - 0.5;
+            vec3 ox = floor(x + 0.5);
+            vec3 a0 = x - ox;
+        
+            // Normalise gradients implicitly by scaling m
+            // Approximation of: m *= inversesqrt( a0*a0 + h*h );
+            m *= 1.79284291400159 - 0.85373472095314 * ( a0*a0 + h*h );
+        
+            // Compute final noise value at P
+            vec3 g;
+            g.x  = a0.x  * x0.x  + h.x  * x0.y;
+            g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+            return 130.0 * dot(m, g);
+        }
+        
+        vec3 curl(float	x,	float	y,	float	z)
+        {
+        
+            float	eps	= 1., eps2 = 2. * eps;
+            float	n1,	n2,	a,	b;
+        
+            x += uTime * 0.1;
+            y += uTime * 0.1;
+            z += uTime * 0.1;
+        
+            vec3	curl = vec3(0.);
+        
+            n1	=	noise(vec2( x,	y	+	eps ));
+            n2	=	noise(vec2( x,	y	-	eps ));
+            a	=	(n1	-	n2)/eps2;
+        
+            n1	=	noise(vec2( x,	z	+	eps));
+            n2	=	noise(vec2( x,	z	-	eps));
+            b	=	(n1	-	n2)/eps2;
+        
+            curl.x	=	a	-	b;
+        
+            n1	=	noise(vec2( y,	z	+	eps));
+            n2	=	noise(vec2( y,	z	-	eps));
+            a	=	(n1	-	n2)/eps2;
+        
+            n1	=	noise(vec2( x	+	eps,	z));
+            n2	=	noise(vec2( x	+	eps,	z));
+            b	=	(n1	-	n2)/eps2;
+        
+            curl.y	=	a	-	b;
+        
+            n1	=	noise(vec2( x	+	eps,	y));
+            n2	=	noise(vec2( x	-	eps,	y));
+            a	=	(n1	-	n2)/eps2;
+        
+            n1	=	noise(vec2(  y	+	eps,	z));
+            n2	=	noise(vec2(  y	-	eps,	z));
+            b	=	(n1	-	n2)/eps2;
+        
+            curl.z	=	a	-	b;
+        
+            return	curl;
+        }
+
         
         void main() {
             #include <begin_vertex>
@@ -95,7 +203,6 @@ const ParticleMaterial = shaderMaterial(
             // randomise
             displaced.xy += vec2(random(pindex) - 0.5, random(offset.x + pindex) - 0.5) * uRandom;
             float rndz = (random(pindex) + snoise(vec2(pindex * 0.1, uTime * 0.1)));
-            displaced.z += rndz * (random(pindex) * 2.0 * uDepth);
 
             // center
             displaced.xy -= uTextureSize * 0.5;
@@ -106,10 +213,14 @@ const ParticleMaterial = shaderMaterial(
             displaced.x += cos(angle) * t * uTouchAmplitude * rndz;
             displaced.y += sin(angle) * t * uTouchAmplitude * rndz;
 
+            // curl
+            // displaced.xyz += 5. * curl(offset.x * 10.0, offset.y * 10.0, offset.z * 10.0);
+
             // particle size
             float psize = (snoise(vec2(uTime, pindex) * 0.5) + 2.0);
             psize *= max(grey, 0.2);
             psize *= uSize;
+
 
             // final position
             vec4 mvPosition = modelViewMatrix * vec4(displaced, 1.0);
@@ -117,7 +228,10 @@ const ParticleMaterial = shaderMaterial(
             vec4 finalPosition = projectionMatrix * mvPosition;
 
             gl_Position = finalPosition;
-            gl_PointSize = uSizeParticle;
+            float pSize = mix(1.0, 3.0, (displaced.z / (uTouchAmplitude)));
+            gl_PointSize = uSizeParticle * pSize;
+
+            vPSize = pSize;
         }
     `,
     // fragment shader
@@ -127,11 +241,16 @@ const ParticleMaterial = shaderMaterial(
 
         varying vec2 vPUv;
         varying vec2 vUv;
+        varying float vPSize;
 
         float circle(vec2 uv, float border) {
             float radius = 0.5;
             float dist = radius - distance(uv, vec2(0.5));
             return smoothstep(0.0, border, dist);
+        }
+
+        float map(float value, float min1, float max1, float min2, float max2) {
+            return min2 + (value - min1) * (max2 - min2) / (max1 - min1);
         }
 
         void main() {
@@ -141,20 +260,18 @@ const ParticleMaterial = shaderMaterial(
             vec2 puv = vPUv;
 
             // pixel color
-            vec4 colA = texture2D(uTexture, puv); 
+            vec4 colA = texture2D(uTexture, puv);
 
             // greyscale
             float grey = colA.r * 0.21 + colA.g * 0.71 + colA.b * 0.07;
-            vec4 colB = vec4(grey, grey, grey, 1.0); 
+            vec4 colB = vec4(grey, grey, grey, 1.0);
+            vec4 greenColor = vec4(0.68, 0.84, 0.2, 1.0);
 
             // final color
-            // color = colB;
-            // color = vec4(1.0);
-            color = vec4(0.68, 0.84, 0.2, 1.0);
+            color = mix(colB, greenColor, map(vPSize, 0.0, 3.0, 0.5, 1.0));
 
             gl_FragColor = color;
             gl_FragColor.a *= circle(gl_PointCoord, 0.2);
-            // gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
         }
     `
 )
@@ -182,11 +299,7 @@ const Scene = ({texture}) => {
 
     // const options = useMemo(() => {
     //     return {
-    //         uRandom: { value: 0, min: 0, max: 1.0, step: 0.01 },
-    //         uDepth: { value: 0, min: 0, max: 1.0, step: 0.01 },
-    //         uSize: { value: 0., min: 0, max: 10.0, step: 0.01 },
-    //         uTouchAmplitude: { value: 100., min: 10.0, max: 100.0, step: 0.01 },
-    //         uSizeParticle: { value: 3.5, min: 1.0, max: 100.0, step: 0.01 },
+    //         uDepth: { value: 0, min: 0, max: 10.0, step: 0.01 },
     //     }
     // }, [])
     // const particles = useControls('Particles', options)
@@ -315,11 +428,6 @@ const Scene = ({texture}) => {
                     transparent={true}
                     uTexture={texture}
                     uTextureSize={new THREE.Vector2(widthTexture, heightTexture)}
-                    // uSize={particles.uSize}
-                    // uSizeParticle={particles.uSizeParticle}
-                    // uRandom={particles.uRandom}
-                    // uDepth={particles.uDepth}
-                    // uTouchAmplitude={particles.uTouchAmplitude}
                     depthWrite={false}
                     sizeAttenuation={true}
                 />
