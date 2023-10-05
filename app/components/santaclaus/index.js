@@ -50,7 +50,8 @@ export default function  santaclaus({santa}) {
 
     return(
         <div className={styles.scene} ref={ref}>
-            <Canvas className={styles.scene_canvas} ref={santaRef} invalidateFrameloop={!inView}>
+            {/* <Canvas className={styles.scene_canvas} ref={santaRef} invalidateFrameloop={!inView}> */}
+            <Canvas className={styles.scene_canvas} ref={santaRef} >
 
                 <OrbitControls />
 

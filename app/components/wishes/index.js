@@ -9,7 +9,6 @@ export default function wishes() {
 
     const wishesRef = useRef()
     const containerRef = useRef()
-    const numberRef = useRef()
 
     const [isMiddle, setIsMiddle] = useState(false);
 
@@ -44,13 +43,13 @@ export default function wishes() {
             </button>
 
             <div ref={containerRef} className={styles.wishes_year}>
-                <div className={styles.wishes_year_left}>
-                    <p>2</p>
-                    <img src="/xmass-crown.svg" alt="crown"/>
-                </div>
-                <div className={styles.wishes_year_right}>
-                    <p>2<span ref={numberRef}>{isMiddle ? 4 : 3}</span></p>
-                </div>
+                {(isMiddle) ? (
+                    <img src="./2024.svg" />
+                )
+                : (
+                    <img src="./2023.svg" />
+                )}
+
             </div>
         </div>
     )
