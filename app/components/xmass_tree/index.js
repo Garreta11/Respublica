@@ -7,20 +7,15 @@ import { Clone } from '@react-three/drei';
 
 import { useScroll, useTransform } from "framer-motion"
 import { motion } from "framer-motion-3d"
-// import { useControls } from 'leva'
+
+import { useInView } from 'react-intersection-observer'
 
 const transition = { duration: 5, ease: [0.43, 0.13, 0.23, 0.96] };
 
-const Scene = ({ tree, rotation, start }) => {
+const Scene = ({ inView, tree, rotation, start }) => {
 
-    // const treeConfig = useControls({
-    //     x: { value: 0, min: -3, max: 3, step: 0.01 },
-    //     y: { value: 0, min: -3, max: 3, step: 0.01 },
-    //     z: { value: 0, min: -3, max: 3, step: 0.01 },
-    //     rotX: { value: 0, min: -90 * Math.PI, max: 90 * Math.PI, step: 0.01 },
-    //     rotY: { value: 0, min: -90 * Math.PI, max: 90 * Math.PI, step: 0.01 },
-    //     rotZ: { value: 0, min: -90 * Math.PI, max: 90 * Math.PI, step: 0.01 },
-    // })
+    const [rot, setRot] = useState(0)
+    const [isScrolling, setIsScrolling] = useState(false);
 
     const variants = {
         hidden: { 
@@ -31,14 +26,6 @@ const Scene = ({ tree, rotation, start }) => {
             scale: 1.5,
             rotateX: 90 * Math.PI / 180
         },
-        // starts: {
-        //     scale: [4.5, 4.5, 4.5],
-        //     x: [0, 2, 2],
-        //     y: [0, 1, 1],
-        //     rotateX: [90 * Math.PI / 180, 90 * Math.PI / 180, 0],
-        //     rotateY:[0, 0, 0],
-        //     rotateZ:[0, 45 * Math.PI / 180, 0]
-        // },
         starts: {
             scale: [1.5, 0.45, 0.45],
             x: [0, 0, 2],
@@ -47,8 +34,42 @@ const Scene = ({ tree, rotation, start }) => {
         },
     }
 
+    useEffect(() => {
+        let scrollTimeout;
+        // Add scroll event listener when the component mounts
+        const handleScroll = () => {
+            setIsScrolling(true);
+      
+            // Clear the previous timeout (if any) and set a new one
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+              setIsScrolling(false);
+            }, 100); // Adjust the timeout duration as needed
+        };
+    
+        window.addEventListener('scroll', handleScroll);
+    
+        // Clean up the event listener when the component unmounts
+        return () => {
+          window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+
+    const EnableRender = () => useFrame(() => {
+        let r = rot
+
+        const speed = isScrolling ? 0.1 : 0.005
+        r += speed
+
+        setRot(r)
+    })
+
+    const DisableRender = () => useFrame(() => null, 1000)
+
     return (
         <>
+            {inView ? <EnableRender /> : <DisableRender />}
+
             <ambientLight intensity={1} color="#b0b0b0"/>
             <pointLight position={2} intensity={5}/>
             <pointLight position={-2} intensity={5}/>
@@ -60,10 +81,7 @@ const Scene = ({ tree, rotation, start }) => {
                         animate={start ? ['starts']: 'visible'}
                         variants={variants}
                         transition={transition}
-                        // position={[0, 0, 0]}
-                        rotation-y={rotation}
-                        // position={[treeConfig.x, treeConfig.y, treeConfig.z]}
-                        // rotation={[treeConfig.rotX, treeConfig.rotY, treeConfig.rotZ]}
+                        rotation-y={rot}
                     >
                         <Clone object={tree.scenes[0]} />
                     </motion.mesh>                 
@@ -75,18 +93,15 @@ const Scene = ({ tree, rotation, start }) => {
 
 export default function  xmasstree( {tree, start} ) {
 
-    const scene = useRef();
+    const { ref, inView } = useInView()
 
-    const { scrollYProgress } = useScroll({
-        target: scene,
-        offset: ['start end', 'end start']
-    })
-
-    const rotation = useTransform(scrollYProgress, [0, 1], [0, 10])
+    const rotation = 0
 
     return(
-        <Canvas ref={scene}>
-            <Scene tree={tree} rotation={rotation} start={start}/>
-        </Canvas>
+        <div className={styles.tree} ref={ref}>
+            <Canvas>
+                <Scene inView={inView} tree={tree} rotation={rotation} start={start}/>
+            </Canvas>
+        </div>
     )
 }

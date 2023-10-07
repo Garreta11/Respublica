@@ -1,10 +1,11 @@
 'use client'
-
-import { Canvas, extend, useFrame, useThree } from "@react-three/fiber"
+import styles from './merryXmass.module.scss'
+import { Canvas, extend, useFrame, useThree, useResource } from "@react-three/fiber"
 import { shaderMaterial, OrthographicCamera, OrbitControls } from '@react-three/drei';
 import { useState, useRef, useMemo } from "react";
 import * as THREE from 'three'
-import { useControls } from 'leva'
+
+import { useInView } from 'react-intersection-observer'
 
 import TouchTexture from "../touchtexture";
 
@@ -228,7 +229,7 @@ const ParticleMaterial = shaderMaterial(
             vec4 finalPosition = projectionMatrix * mvPosition;
 
             gl_Position = finalPosition;
-            float pSize = mix(1.0, 3.0, (displaced.z / (uTouchAmplitude)));
+            float pSize = mix(1.0, 4.0, (displaced.z / (uTouchAmplitude)));
             gl_PointSize = uSizeParticle * pSize;
 
             vPSize = pSize;
@@ -271,6 +272,7 @@ const ParticleMaterial = shaderMaterial(
             color = mix(colB, greenColor, map(vPSize, 0.0, 3.0, 0.5, 1.0));
 
             gl_FragColor = color;
+
             gl_FragColor.a *= circle(gl_PointCoord, 0.2);
         }
     `
@@ -278,9 +280,9 @@ const ParticleMaterial = shaderMaterial(
 // declaratively
 extend({ ParticleMaterial })
 
-const Scene = ({texture}) => {
 
-    const { camera, mouse, size } = useThree();
+const Scene = ({texture, inView}) => {
+    const { gl, camera, mouse, size } = useThree();
 
     const particlesRef = useRef()
     const materialRef = useRef()
@@ -297,14 +299,8 @@ const Scene = ({texture}) => {
 
     const raycaster = new THREE.Raycaster();
 
-    // const options = useMemo(() => {
-    //     return {
-    //         uDepth: { value: 0, min: 0, max: 10.0, step: 0.01 },
-    //     }
-    // }, [])
-    // const particles = useControls('Particles', options)
-
     const discard = true
+
     // Use useMemo to memoize the customBufferGeometry
     const customBufferGeometry = useMemo(() => {
 
@@ -386,8 +382,7 @@ const Scene = ({texture}) => {
         return geometry;
     }, [width, height]); // Recalculate when width or height change
 
-
-    useFrame(({ clock }) => {
+   const EnableRender = () => useFrame(({ clock }) => {
         const time = clock.elapsedTime;
         materialRef.current.uniforms.uTime.value = time;
         
@@ -407,10 +402,14 @@ const Scene = ({texture}) => {
         camera.aspect = size.width / size.height;
         camera.updateProjectionMatrix();
     })
+
+    const DisableRender = () => useFrame(() => null, 1000)
     
     return (
         <>
             {/* <OrbitControls /> */}
+
+            {inView ? <EnableRender /> : <DisableRender />}
 
             <ambientLight intensity={1} color="#b0b0b0"/>
             <pointLight position={2} intensity={5}/>
@@ -430,6 +429,8 @@ const Scene = ({texture}) => {
                     uTextureSize={new THREE.Vector2(widthTexture, heightTexture)}
                     depthWrite={false}
                     sizeAttenuation={true}
+                    emissive={"white"}
+                    emissiveIntensity={1}
                 />
                 
             </points>
@@ -451,10 +452,13 @@ const Scene = ({texture}) => {
 
 export default function  merryXmass( {texture} ) {
 
-
+    const { ref, inView } = useInView()
+    
     return(
-        <Canvas camera={{ position: [0, 0, 150] }}>
-            <Scene texture={texture} />
-        </Canvas>
+        <div ref={ref} className={styles.xmass}>
+            <Canvas camera={{ position: [0, 0, 150] }}>
+                <Scene inView={inView} texture={texture} />
+            </Canvas>
+        </div>
     )
 }

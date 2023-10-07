@@ -11,7 +11,7 @@ import Xmasstree from "./components/xmass_tree"
 import Intro from './components/intro'
 import Wedonate from './components/wedonate'
 import Video from './components/video'
-import Xmass from './components/xmass_balls'
+import MerryXmass from "./components/merryXmass";
 import Wishes from './components/wishes'
 import AudioIcon from './components/audio_icon'
 import Footer from './components/footer'
@@ -108,17 +108,17 @@ export default function Home() {
       )}
         <MousePositionProvider>
           
-          <div className={styles.main_tree}>
-            <Xmasstree tree={treeModel} start={start}/>
-          </div>
+          
+          <Xmasstree tree={treeModel} start={start}/>
+          
 
           {start && (
             <>
               <Header />
               <Intro />
               <Wedonate santa={santaModel} />
-              <Video texture={merryText}/>
-              <Xmass />
+              <Video />
+              <MerryXmass texture={merryText} />
               <Wishes />
               <AudioIcon/>
               <Footer />
