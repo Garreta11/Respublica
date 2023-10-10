@@ -13,7 +13,9 @@ export default function wedonate({ santa }) {
             <Title text="Wir spenden, Sie falten!" button="Zum Video Tutorial" btnlink="#video"/>
             
             <div className={styles.wedonate_text}>
-                <p>Auch in diesem Jahr wollen wir zu Weihnachten wieder Spenden. Für jeden Download unserer "Step-by-Step Origami-Weihnachtsbaum-Anleitung" spenden wir an jene, die Unterstützung brauchen. Einfach das Tutorial anschauen, die Anleitung herunterladen und los falten.</p>
+                <p>Auch in diesem Jahr verteilt der respublica-Weihnachtsmann wieder seine Geschenke an diejenigen, die unsere Unterstützung benötigen: gemeinnützige Organisationen und Vereine.</p>
+                <br />
+                <p>In diesem Sinne – ein frohes und friedliches Weihnachtsfest und alle Gute für 2024!</p>
             </div>
 
             <div className={styles.wedonate_trees}>

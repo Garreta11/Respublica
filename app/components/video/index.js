@@ -47,7 +47,7 @@ export default function video() {
         let st = ScrollTrigger.create({
             trigger: textRef.current,
             pin: textRef.current,
-            start: "center center",
+            start: "10% center",
             markers: false,
             end: () => "+=" + screen.height,
             onUpdate: (self) => {
