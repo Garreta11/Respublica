@@ -17,6 +17,8 @@
     &_text {
         max-width: 439px;
         width: 50%;
+        font-size: 18px;
+        font-weight: 300;
 
         @include sm {
             width: 100%;
@@ -27,7 +29,6 @@
     &_trees {
 
         width: 100%;
-        margin-top: 50px;
         display: flex;
         justify-content: space-between;
 

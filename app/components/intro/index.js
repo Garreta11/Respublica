@@ -39,10 +39,13 @@ export default function  Intro() {
                     transition={transition}
                     className={styles.intro_wrapper}
                 >
-                    <Title text="Basteln Sie sich Weihnachten!"/>
+                    <Title text="Basteln Sie sich in Stimmung!"/>
                     <div className={styles.intro_text}>
-                        <p>Die Feiertage stehen vor der Tür, und wir haben eine besondere Idee, wie Sie Ihrem Zuhause eine einzigartige Note verleihen können.</p>
-                        <p>Entdecken Sie die Freude am Origami. Wir haben eine Video Tutorial und eine Anleitung für Sie vorbereitet. Viel Spaß damit! :)</p>
+                        <p>So etwas macht man auch nicht jedes Jahr: Weihnachtsbäume falten!</p>
+                        <br />
+                        <p>Warum nicht jetzt damit beginnen? Das Ergebnis kann sich sehen lassen – und eignet sich perfekt als Dekoration auf dem Gabentisch.</p>
+                        <br />
+                        <p>Noch etwas weiter nach unten scrollen und schon gibts unser Video-Tutorial.</p>
                     </div>
                 </motion.div>
             </AnimatePresence>
