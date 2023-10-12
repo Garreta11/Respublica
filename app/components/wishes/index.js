@@ -49,13 +49,10 @@ export default function wishes() {
                 }}
                 ref={textRef}
             >
-                <Title text="Merry Christmas and a happy new year!!!" />
+                <Title text="Merry Christmas and a happy new year!!!" button="Anleitung herunterladen" btnlink="/download.pdf" download/>
 
                 <p className={styles.wishes_description}>Wir hoffen wir konnten Ihnen und ihren Familien mit den Origami Bäumchen eine Freude bereiten!</p>
 
-                <button>
-                    Anleitung herunterladen
-                </button>
             </div>
 
             <div ref={containerRef} className={styles.wishes_year}

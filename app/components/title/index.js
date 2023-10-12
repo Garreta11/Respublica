@@ -2,9 +2,10 @@ import styles from './title.module.scss'
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 
-export default function  title({text, button, btnlink}) {
+export default function  title({text, button, btnlink, download}) {
     
     const scrollToSection = (e) => {
+        if (download) return;
         e.preventDefault();
         const section = document.querySelector(btnlink); // Replace with the target section's id
         const yOffset = -100; 
@@ -27,9 +28,9 @@ export default function  title({text, button, btnlink}) {
             </motion.h2>
 
             {button && ( // Check if the 'button' prop is defined
-                <Link href={btnlink} onClick={scrollToSection}>
+                <Link href={btnlink} download onClick={scrollToSection}>
                     <button className={styles.title_btn}>
-                        Zum Video Tutorial
+                        {button}
                     </button>
                 </Link>
             )}

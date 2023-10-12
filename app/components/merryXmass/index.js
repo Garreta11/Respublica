@@ -267,9 +267,10 @@ const ParticleMaterial = shaderMaterial(
             float grey = colA.r * 0.21 + colA.g * 0.71 + colA.b * 0.07;
             vec4 colB = vec4(grey, grey, grey, 1.0);
             vec4 greenColor = vec4(0.68, 0.84, 0.2, 1.0);
+            vec4 whiteColor = vec4(1., 1., 1., 1.0);
 
             // final color
-            color = mix(colB, greenColor, map(vPSize, 0.0, 3.0, 0.5, 1.0));
+            color = mix(colB, whiteColor, map(vPSize, 0.0, 3.0, 0.5, 1.0));
 
             gl_FragColor = color;
 

@@ -12,6 +12,6 @@ export default [
     {
         name: 'merryChristmas',
         type: 'textureModel',
-        path: '/merry-christmas_2.jpg'
+        path: '/merry-christmas.jpg'
     },
 ]

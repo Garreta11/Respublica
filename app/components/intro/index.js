@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link';
 import { motion, AnimatePresence } from "framer-motion";
 
-const transition = { delay: 1, duration: 1, ease: [0.43, 0.13, 0.23, 0.96] };
+const transition = { delay: 5, duration: 1, ease: [0.43, 0.13, 0.23, 0.96] };
 const transitionStars = { duration: 1, ease: [0.43, 0.13, 0.23, 0.96] };
 
 export default function  Intro() {
