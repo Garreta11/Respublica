@@ -76,7 +76,7 @@ export default function video() {
                 <motion.video
                     className={styles.vid_wrapper_video}
                     ref={videoRef}
-                    controls={false}
+                    controls={true}
                     style={{height: heightVideo + "%"}}
                     autoPlay
                     muted
