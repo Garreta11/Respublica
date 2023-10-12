@@ -28,7 +28,7 @@ export default function video() {
             height: window.innerHeight,
           });
 
-          videoRef.current.style.maxHeight = windowSize.width  / (16/9) + "px";
+          videoRef.current.style.maxHeight = window.innerWidth  / (16/9) + "px";
         }
     
         // Add event listener for window resize
@@ -60,7 +60,7 @@ export default function video() {
             }
         });
         return () => st.kill();
-    }, [])
+    }, [windowSize])
 
 
 

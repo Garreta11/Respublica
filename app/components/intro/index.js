@@ -57,7 +57,18 @@ export default function  Intro() {
                 transition={transitionStars}
                 className={styles.intro_stars}
             >
-                <img className={styles.intro_stars_img} src="/stars--intro.png" />
+                <img className={styles.intro_stars_img} src="/stars--intro.svg" />
+            </motion.div>
+
+            <motion.div
+                initial={{ scale: 0.5, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.5, opacity: 0 }}
+                transition={transitionStars}
+                className={styles.intro_stars_rot}
+            >
+                <img className={styles.intro_stars_rot_1} src="/stars--intro-rot.svg" />
+                <img className={styles.intro_stars_rot_2} src="/stars--intro-rot.svg" />
             </motion.div>
 
 

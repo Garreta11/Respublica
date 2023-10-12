@@ -5,20 +5,48 @@ import styles from "./wedonate.module.scss";
 
 import Santaclaus from "../santaclaus";
 
+import { useInView } from "framer-motion";
+import { useEffect, useRef } from "react";
+
 export default function wedonate({ santa }) {
+
+    const textRef = useRef()
+    const treeRef = useRef()
+    const textIsInView = useInView(textRef, {once:true})
+    const treeIsInView = useInView(treeRef, {once:true})
     
     return(
         <div id="wedonate" className={styles.wedonate}>
 
-            <Title text="Wir spenden, Sie falten!" button="Zum Video Tutorial" btnlink="#video"/>
-            
-            <div className={styles.wedonate_text}>
-                <p>Auch in diesem Jahr verteilt der respublica-Weihnachtsmann wieder seine Geschenke an diejenigen, die unsere Unterstützung benötigen: gemeinnützige Organisationen und Vereine.</p>
-                <br />
-                <p>In diesem Sinne – ein frohes und friedliches Weihnachtsfest und alle Gute für 2024!</p>
+            <div
+                style={{
+                    transform: textIsInView ? 'none' : 'translateX(-100px)',
+                    opacity: textIsInView ? 1 : 0,
+                    transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s"
+                }}
+                ref={textRef}
+            >
+                <Title text="Wir spenden, Sie falten!" button="Zum Video Tutorial" btnlink="#video"/>
+                
+                <div
+                    className={styles.wedonate_text}
+                >
+                    <p>Auch in diesem Jahr verteilt der respublica-Weihnachtsmann wieder seine Geschenke an diejenigen, die unsere Unterstützung benötigen: gemeinnützige Organisationen und Vereine.</p>
+                    <br />
+                    <p>In diesem Sinne – ein frohes und friedliches Weihnachtsfest und alle Gute für 2024!</p>
+                </div>
             </div>
 
-            <div className={styles.wedonate_trees}>
+
+            <div
+                className={styles.wedonate_trees}
+                style={{
+                    transform: treeIsInView ? 'none' : 'translateY(100px)',
+                    opacity: treeIsInView ? 1 : 0,
+                    transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s"
+                }}
+                ref={treeRef}
+            >
                 <div className={styles.wedonate_trees_wrapper} >
                     <img className={styles.wedonate_trees_star} src="star--green.svg" />
                     <img src="tree--wireframe.svg" />
