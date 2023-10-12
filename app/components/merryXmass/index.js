@@ -288,8 +288,11 @@ const Scene = ({texture, inView}) => {
     const materialRef = useRef()
     const touchRef = useRef()
 
-    const width = texture.image.width
-    const height = texture.image.height
+    // const width = texture.image.width
+    // const height = texture.image.height
+
+    const width = window.innerWidth;
+    const height = 16 * width / 9;
 
     const [widthTexture, setWidthTexture] = useState(width)
     const [heightTexture, setHeightTexture] = useState(height)
@@ -440,7 +443,7 @@ const Scene = ({texture, inView}) => {
                     ref={touchRef}
                     onPointerOver={() => setHovered(true)}
                     onPointerOut={() => setHovered(false)}
-                    visible={false}
+                    visible={true}
                 >
                     <planeGeometry attach="geometry" args={[widthTexture, heightTexture]} />
                     <meshStandardMaterial map={touchTexture.texture}/>

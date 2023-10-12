@@ -38,10 +38,44 @@
         width: 100%;
         height: 100%;
         pointer-events: none;
+
         &_img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+
+        &_rot {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            &_1 {
+                width: 77px;
+                height: 77px;
+                position: absolute;
+                top: 140px;
+                right: 28%;
+                animation: star-rotate 20s linear 0s infinite;
+            }
+            &_2 {
+                width: 77px;
+                height: 77px;
+                position: absolute;
+                bottom: 21%;
+                left: 10%;
+                animation: star-rotate 20s linear 0s infinite reverse;
+            }
+        }
+
+        @keyframes star-rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
         }
     }
 
