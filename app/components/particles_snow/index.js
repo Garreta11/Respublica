@@ -41,7 +41,7 @@ export default function  particlessnow( {tree} ) {
 
     const points = useRef();
 
-    useFrame(() => {
+    useFrame((_, delta) => {
         for (let i = 0; i < numberSnowflakes; i++) {
             positions[i * 3] = initialPositions[i * 3];
             positions[i * 3 + 1] += velocities[i];
@@ -52,7 +52,7 @@ export default function  particlessnow( {tree} ) {
                 positions[i * 3] = (0.5 - Math.random()) * xRange
                 positions[i * 3 + 1] = maxRange
                 positions[i * 3 + 2] = (0.5 - Math.random()) * zRange
-                velocities[i] = -0.01 // Adjust the velocity as needed
+                velocities[i] = -1 * delta // Adjust the velocity as needed
             }
         }
         points.current.geometry.setAttribute('position', new BufferAttribute(positions, 3));

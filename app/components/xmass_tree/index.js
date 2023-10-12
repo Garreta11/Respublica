@@ -55,10 +55,10 @@ const Scene = ({ inView, tree, rotation, start }) => {
         };
     }, []);
 
-    const EnableRender = () => useFrame(() => {
+    const EnableRender = () => useFrame((_, delta) => {
         let r = rot
 
-        const speed = isScrolling ? 0.1 : 0.005
+        const speed = isScrolling ? delta * 1 : delta * 0.1
         r += speed
 
         setRot(r)

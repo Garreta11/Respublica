@@ -203,7 +203,7 @@ const ParticleMaterial = shaderMaterial(
 
             // randomise
             displaced.xy += vec2(random(pindex) - 0.5, random(offset.x + pindex) - 0.5) * uRandom;
-            float rndz = (random(pindex) + snoise(vec2(pindex * 0.1, uTime * 0.1)));
+            float rndz = (random(pindex) + snoise(vec2(pindex * 0.1, uTime * 0.01)));
 
             // center
             displaced.xy -= uTextureSize * 0.5;
@@ -382,9 +382,9 @@ const Scene = ({texture, inView}) => {
         return geometry;
     }, [width, height]); // Recalculate when width or height change
 
-   const EnableRender = () => useFrame(({ clock }) => {
-        const time = clock.elapsedTime;
-        materialRef.current.uniforms.uTime.value = time;
+   const EnableRender = () => useFrame((state, delta) => {
+
+        materialRef.current.uniforms.uTime.value += delta;
         
         if (touchTexture) {
             touchTexture.update()
