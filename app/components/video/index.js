@@ -80,6 +80,7 @@ export default function video() {
                     style={{height: heightVideo + "%"}}
                     autoPlay
                     muted
+                    loop
                 >
                     <source src="/video.mp4" type="video/mp4" />
                 </motion.video>
