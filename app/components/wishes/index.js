@@ -17,6 +17,8 @@ export default function wishes() {
 
     const [isMiddle, setIsMiddle] = useState(false);
 
+    const [year, setYear] = useState(false)
+
     const checkIsMiddle = () => {
         const element = containerRef.current;
         if (element) {
@@ -28,11 +30,17 @@ export default function wishes() {
         }
     };
 
+    const startTransition = () => {
+        setInterval(() => {
+            setYear(prevYear => !prevYear);
+        }, 5000)
+    }
+
     useEffect(() => {
         const observer = new IntersectionObserver((entries) => {
             const entry = entries[0]
             if (entry.isIntersecting) {
-                window.addEventListener('scroll', checkIsMiddle);
+                startTransition()
             }
         })
         observer.observe(wishesRef.current)
@@ -62,7 +70,7 @@ export default function wishes() {
                     transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s"
                 }}
             >
-                {(isMiddle) ? (
+                {(year) ? (
                     <img src="./2024.svg" />
                 )
                 : (

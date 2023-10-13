@@ -24,6 +24,7 @@ import sources from './utils/sources';
 import { TextureLoader } from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 
+
 export default function Home() {
 
   const [isLoaded, setIsLoaded] = useState(false)
@@ -33,6 +34,8 @@ export default function Home() {
   const [santaModel, setSantaModel] = useState()
   const [treeModel, setTreeModel] = useState()
   const [merryText, setMerryText] = useState()
+  const [starTexture, setStarTexture] = useState()
+  const [treeTexture, setTreeTexture] = useState()
 
   let loaders
   let toLoad
@@ -79,6 +82,12 @@ export default function Home() {
             if (source.name === 'merryChristmas') {
               setMerryText(texture)
             }
+            if (source.name === 'star') {
+              setStarTexture(texture)
+            }
+            if (source.name === 'treeTexture') {
+              setTreeTexture(texture)
+            }
             sourceLoaded(source, texture);
           });
         }
@@ -107,16 +116,15 @@ export default function Home() {
         </>
       )}
         <MousePositionProvider>
-          
-          
-          <Xmasstree tree={treeModel} start={start}/>
+                     
+          <Xmasstree tree={treeModel} starTexture={starTexture} start={start}/>
           
 
           {start && (
             <>
               <Header />
               <Intro />
-              <Wedonate santa={santaModel} />
+              <Wedonate santa={santaModel} treeTexture={treeTexture}/>
               <Video />
               <MerryXmass texture={merryText} />
               <Wishes />

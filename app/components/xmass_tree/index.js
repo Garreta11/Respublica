@@ -10,11 +10,14 @@ import { motion } from "framer-motion-3d"
 
 import { useInView } from 'react-intersection-observer'
 
-const transition = { duration: 5, ease: [0.43, 0.13, 0.23, 0.96] };
 
-const Scene = ({ inView, tree, rotation, start }) => {
+const transition = { duration: 5, ease: [0.43, 0.13, 0.23, 0.96] };
+const transitionImage = { duration: 2, delay: 5, ease: [0.43, 0.13, 0.23, 0.96] };
+
+const Scene = ({ inView, tree, starTexture, start }) => {
 
     const [rot, setRot] = useState(0)
+    const [rotationImage, setRotationImage] = useState(0)
     const [isScrolling, setIsScrolling] = useState(false);
 
     const variants = {
@@ -32,6 +35,17 @@ const Scene = ({ inView, tree, rotation, start }) => {
             y: [0, 0, 1.5],
             rotateX: [90 * Math.PI / 180, 90 * Math.PI / 180, 0]
         },
+    }
+
+    const variantsImage = {
+        hidden: {
+            opacity: 0,
+            scale: 0
+        },
+        visible: {
+            opacity: 1,
+            scale: 0.5
+        }
     }
 
     useEffect(() => {
@@ -57,11 +71,13 @@ const Scene = ({ inView, tree, rotation, start }) => {
 
     const EnableRender = () => useFrame((_, delta) => {
         let r = rot
-
         const speed = isScrolling ? delta * 1 : delta * 0.1
         r += speed
-
         setRot(r)
+
+        let rotImage = rotationImage
+        rotImage -= delta * 0.1
+        setRotationImage(rotImage)
     })
 
     const DisableRender = () => useFrame(() => null, 1000)
@@ -73,6 +89,19 @@ const Scene = ({ inView, tree, rotation, start }) => {
             <ambientLight intensity={1} color="#b0b0b0"/>
             <pointLight position={2} intensity={5}/>
             <pointLight position={-2} intensity={5}/>
+            {starTexture && (
+                <motion.mesh
+                    position={[2, 2.3, 0]}
+                    variants={variantsImage}
+                    initial="hidden"
+                    animate={start ? 'visible' : ''}
+                    transition={transitionImage}
+                    rotation-z={rotationImage}
+                >
+                    <planeGeometry />
+                    <meshBasicMaterial transparent map={starTexture} />
+                </motion.mesh>
+            )}
             {tree && ( 
                 <Suspense fallback={null}>
                     {/* Main */}
@@ -91,7 +120,7 @@ const Scene = ({ inView, tree, rotation, start }) => {
     )
 }
 
-export default function  xmasstree( {tree, start} ) {
+export default function  xmasstree( {tree, start, starTexture} ) {
 
     const { ref, inView } = useInView()
 
@@ -100,7 +129,7 @@ export default function  xmasstree( {tree, start} ) {
     return(
         <div className={styles.tree} ref={ref}>
             <Canvas>
-                <Scene inView={inView} tree={tree} rotation={rotation} start={start}/>
+                <Scene inView={inView} starTexture={starTexture} tree={tree} rotation={rotation} start={start}/>
             </Canvas>
         </div>
     )

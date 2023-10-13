@@ -15,7 +15,7 @@ import { OrbitControls } from "@react-three/drei";
 
 const transition = { duration: 3, ease: [0.43, 0.13, 0.23, 0.96] };
 
-export default function  santaclaus({santa}) {
+export default function  santaclaus({santa, treeTexture}) {
 
     const santaRef = useRef()
 
@@ -24,13 +24,15 @@ export default function  santaclaus({santa}) {
     return(
         <div className={styles.scene} ref={ref}>
             <Canvas className={styles.scene_canvas} ref={santaRef} >
-                <Scene inView={inView} santa={santa} />
+                <Scene inView={inView} santa={santa} treeTexture={treeTexture} />
             </Canvas>
         </div>
     )
 }
 
-const Scene = ({ inView, santa }) => {
+const Scene = ({ inView, santa, treeTexture }) => {
+
+    const { viewport } = useThree();
 
     const mousePos = {
         x: useMotionValue(0),
@@ -66,6 +68,16 @@ const Scene = ({ inView, santa }) => {
 
             <Particlessnow />
 
+            {treeTexture && (
+                <motion.mesh
+                    position={[-4, -1, 0]}
+                    scale={1.5}
+                >
+                    <planeGeometry args={[1, 2]} />
+                    <meshBasicMaterial transparent map={treeTexture} />
+                </motion.mesh>
+            )}
+
             {santa && ( 
                 <motion.mesh
                     initial={{ scale: 0, opacity: 0 }}
@@ -77,6 +89,16 @@ const Scene = ({ inView, santa }) => {
                     rotation-x={smoothMouse.y}
                 >
                     <primitive object={santa.scenes[0]} />
+                </motion.mesh>
+            )}
+            
+            {treeTexture && (
+                <motion.mesh
+                    position={[4, -1, 0]}
+                    scale={1.5}
+                >
+                    <planeGeometry args={[1, 2]} />
+                    <meshBasicMaterial transparent map={treeTexture} />
                 </motion.mesh>
             )}
         </>

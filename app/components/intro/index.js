@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link';
 import { motion, AnimatePresence } from "framer-motion";
 
-const transition = { delay: 5, duration: 1, ease: [0.43, 0.13, 0.23, 0.96] };
+const transition = { delay: 6, duration: 1, ease: [0.43, 0.13, 0.23, 0.96] };
 const transitionStars = { duration: 1, ease: [0.43, 0.13, 0.23, 0.96] };
 
 export default function  Intro() {
@@ -67,7 +67,7 @@ export default function  Intro() {
                 transition={transitionStars}
                 className={styles.intro_stars_rot}
             >
-                <img className={styles.intro_stars_rot_1} src="/stars--intro-rot.svg" />
+                
                 <img className={styles.intro_stars_rot_2} src="/stars--intro-rot.svg" />
             </motion.div>
 
