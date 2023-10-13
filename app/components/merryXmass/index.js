@@ -2,7 +2,7 @@
 import styles from './merryXmass.module.scss'
 import { Canvas, extend, useFrame, useThree, useResource } from "@react-three/fiber"
 import { shaderMaterial, OrthographicCamera, OrbitControls } from '@react-three/drei';
-import { useState, useRef, useMemo } from "react";
+import { useState, useRef, useMemo, useEffect } from "react";
 import * as THREE from 'three'
 
 import { useInView } from 'react-intersection-observer'
@@ -15,11 +15,11 @@ const ParticleMaterial = shaderMaterial(
         uRandom: 0.0,
         uDepth: 0.0,
         uSize: 0.0,
-        uSizeParticle: 3.5,
+        uSizeParticle: 2.,
         uTextureSize: new THREE.Vector2(0, 0),
         uTexture: null,
         uTouch: null,
-        uTouchAmplitude: 50.0,
+        uTouchAmplitude: 10.0,
     },
     // vertex shader
     /*glsl*/`
@@ -203,7 +203,7 @@ const ParticleMaterial = shaderMaterial(
 
             // randomise
             displaced.xy += vec2(random(pindex) - 0.5, random(offset.x + pindex) - 0.5) * uRandom;
-            float rndz = (random(pindex) + snoise(vec2(pindex * 0.1, uTime * 0.01)));
+            float rndz = (random(pindex) + snoise(vec2(pindex * 0.1, uTime * 0.001)));
 
             // center
             displaced.xy -= uTextureSize * 0.5;
@@ -218,7 +218,7 @@ const ParticleMaterial = shaderMaterial(
             // displaced.xyz += 5. * curl(offset.x * 10.0, offset.y * 10.0, offset.z * 10.0);
 
             // particle size
-            float psize = (snoise(vec2(uTime, pindex) * 0.5) + 2.0);
+            float psize = (snoise(vec2(uTime * 0.1, pindex) * 0.5) + 2.0);
             psize *= max(grey, 0.2);
             psize *= uSize;
 
@@ -229,7 +229,7 @@ const ParticleMaterial = shaderMaterial(
             vec4 finalPosition = projectionMatrix * mvPosition;
 
             gl_Position = finalPosition;
-            float pSize = mix(1.0, 4.0, (displaced.z / (uTouchAmplitude)));
+            float pSize = mix(1.0, 5.0, (displaced.z / (uTouchAmplitude)));
             gl_PointSize = uSizeParticle * pSize;
 
             vPSize = pSize;
@@ -289,8 +289,8 @@ const Scene = ({texture, inView}) => {
     const materialRef = useRef()
     const touchRef = useRef()
 
-    const width = texture.image.width
-    const height = texture.image.height
+    let width = texture.image.width
+    let height = texture.image.height
 
     const [widthTexture, setWidthTexture] = useState(width)
     const [heightTexture, setHeightTexture] = useState(height)
@@ -385,7 +385,7 @@ const Scene = ({texture, inView}) => {
 
    const EnableRender = () => useFrame((state, delta) => {
 
-        materialRef.current.uniforms.uTime.value += delta;
+        materialRef.current.uniforms.uTime.value += delta * 0.001;
         
         if (touchTexture) {
             touchTexture.update()
@@ -405,6 +405,23 @@ const Scene = ({texture, inView}) => {
     })
 
     const DisableRender = () => useFrame(() => null, 1000)
+
+    useEffect(() => {
+        const handleResize = () => {
+            /* if (window.innerWidth < 921) {
+                camera.position.set(0, 0, 500)
+                materialRef.current.uniforms.uSizeParticle.value = 1.;
+            } else {
+                camera.position.set(0, 0, 300)
+                materialRef.current.uniforms.uSizeParticle.value = 2.;
+            } */
+        }
+
+        window.addEventListener("resize", handleResize);
+        handleResize()
+
+        return () => window.removeEventListener("resize", handleResize); 
+    })
     
     return (
         <>
@@ -431,7 +448,7 @@ const Scene = ({texture, inView}) => {
                     depthWrite={false}
                     sizeAttenuation={true}
                     emissive={"white"}
-                    emissiveIntensity={1}
+                    emissiveIntensity={10}
                 />
                 
             </points>
@@ -454,12 +471,20 @@ const Scene = ({texture, inView}) => {
 export default function  merryXmass( {texture} ) {
 
     const { ref, inView } = useInView()
-    
+
     return(
         <div ref={ref} className={styles.xmass}>
-            <Canvas camera={{ position: [0, 0, 150] }}>
-                <Scene inView={inView} texture={texture} />
-            </Canvas>
+            <div className={styles.xmass_wrapper}>
+                <Canvas
+                    orthographic={false}
+                    camera={{ position: [0, 0, 150] }}
+                    fov={window.innerHeight / window.screen.height}
+                    aspect={window.innerWidth / window.innerHeight}
+                    dpr={1}
+                >
+                    <Scene inView={inView} texture={texture} />
+                </Canvas>
+            </div>
         </div>
     )
 }

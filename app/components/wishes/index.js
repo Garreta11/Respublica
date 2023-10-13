@@ -19,31 +19,13 @@ export default function wishes() {
 
     const [year, setYear] = useState(false)
 
-    const checkIsMiddle = () => {
-        const element = containerRef.current;
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          const elementMiddle = rect.top + rect.height / 2;
-          const viewportMiddle = window.innerHeight / 2;
-          
-          setIsMiddle((elementMiddle - viewportMiddle) < window.innerHeight * 0.3);
-        }
-    };
-
-    const startTransition = () => {
-        setInterval(() => {
-            setYear(prevYear => !prevYear);
-        }, 5000)
-    }
 
     useEffect(() => {
-        const observer = new IntersectionObserver((entries) => {
-            const entry = entries[0]
-            if (entry.isIntersecting) {
-                startTransition()
-            }
-        })
-        observer.observe(wishesRef.current)
+        const interval = setInterval(() => {
+            setYear(prevYear => !prevYear);
+          }, 4000);
+      
+          return () => clearInterval(interval);
     }, [])
 
     return(
@@ -70,12 +52,8 @@ export default function wishes() {
                     transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s"
                 }}
             >
-                {(year) ? (
-                    <img src="./2024.svg" />
-                )
-                : (
-                    <img src="./2023.svg" />
-                )}
+                <img className={`${styles.wishes_year_selected} ${styles.wishes_year_selected_2023} ${year ? styles.wishes_year_show : styles.wishes_year_hide}`} src="./2023.svg" />
+                <img className={`${styles.wishes_year_selected} ${styles.wishes_year_selected_2024} ${!year ? styles.wishes_year_show : styles.wishes_year_hide}`} src="./2024.svg" />
 
             </div>
         </div>

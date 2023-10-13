@@ -349,7 +349,13 @@
   position: relative;
   background-color: var(--respublica-grey);
   width: 100vw;
-  height: 100vh;
+  /* height: 100vh; */
+  height: 56.25vw;
+}
+.merryXmass_xmass_wrapper__Cl4dD {
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
 }
 /*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[5].oneOf[9].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[5].oneOf[9].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[5].oneOf[9].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[5].oneOf[9].use[5]!./app/components/wishes/wishes.module.scss ***!
@@ -366,20 +372,22 @@
   margin-bottom: 50px;
 }
 .wishes_wishes_year__4miIe {
-  display: flex;
-  justify-content: center;
-  white-space: nowrap;
-  font-size: 500px;
-  font-weight: 700;
+  position: relative;
 }
-.wishes_wishes_year__4miIe img {
+.wishes_wishes_year_selected__I8Izv {
+  transition: opacity linear 1s;
   width: 100%;
 }
-.wishes_wishes_year_left__KjigQ, .wishes_wishes_year_right__Kdeyh {
-  display: flex;
+.wishes_wishes_year_selected_2024__kXiTV {
+  position: absolute;
+  top: 0;
+  left: 0;
 }
-.wishes_wishes_year_left__KjigQ {
-  letter-spacing: -100px;
+.wishes_wishes_year_show__iikVX {
+  opacity: 1;
+}
+.wishes_wishes_year_hide__h3bTn {
+  opacity: 0;
 }
 /*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[5].oneOf[9].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[5].oneOf[9].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[5].oneOf[9].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[5].oneOf[9].use[5]!./app/components/audio_icon/audio.module.scss ***!

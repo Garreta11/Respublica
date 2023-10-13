@@ -11,23 +11,24 @@
     }
 
     &_year {
-        display: flex;
-        justify-content: center;
-        white-space: nowrap;
-        // letter-spacing: -100px;
-        font-size: 500px;
-        font-weight: 700;
-
-        img {
+        position: relative;
+        &_selected {
+            transition: opacity linear 1s;
             width: 100%;
+
+            &_2024 {
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
         }
 
-        &_left, &_right {
-            display: flex;
+        &_show {
+            opacity: 1;
         }
 
-        &_left {
-            letter-spacing: -100px;
+        &_hide {
+            opacity: 0;
         }
 
     }
