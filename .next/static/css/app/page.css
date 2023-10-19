@@ -8,6 +8,11 @@
   align-items: flex-end;
   justify-content: center;
 }
+@media (max-width: 921px) {
+  .loadingpage_loadingpage__3elta {
+    position: absolute;
+  }
+}
 .loadingpage_loadingpage_stars_left__TEyHq {
   position: absolute;
   height: 75%;
@@ -77,6 +82,11 @@
   top: 0;
   left: 0;
 }
+@media (max-width: 921px) {
+  .xmass_tree_tree__upI1z {
+    position: initial;
+  }
+}
 /*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[5].oneOf[9].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[5].oneOf[9].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[5].oneOf[9].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[5].oneOf[9].use[5]!./app/components/title/title.module.scss ***!
   \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
@@ -141,8 +151,10 @@
 @media (max-width: 921px) {
   .intro_intro__IxOxP {
     flex-direction: column-reverse;
-    height: 100vh;
+    height: -moz-fit-content;
+    height: fit-content;
     justify-content: center;
+    position: initial;
   }
 }
 .intro_intro_wrapper___j1a6 {
@@ -200,6 +212,13 @@
   }
   to {
     transform: rotate(360deg);
+  }
+}
+@media (max-width: 921px) {
+  .intro_intro_stars__iL3Ws {
+    width: -moz-fit-content;
+    width: fit-content;
+    height: 100vh;
   }
 }
 .intro_intro_scroll__ArhsW {
@@ -310,7 +329,7 @@
 }
 @media (max-width: 921px) {
   .video_vid__tlbja {
-    height: 100vh;
+    height: 110vh;
   }
 }
 .video_vid_wrapper__XKdLq {

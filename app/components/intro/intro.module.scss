@@ -14,8 +14,10 @@
 
     @include sm {
         flex-direction: column-reverse;
-        height: 100vh;
+        height: fit-content;
         justify-content: center;
+
+        position: initial;
     }
     
     &_wrapper {
@@ -76,6 +78,11 @@
             to {
                 transform: rotate(360deg);
             }
+        }
+
+        @include sm {
+            width: fit-content;
+            height: 100vh;
         }
     }
 

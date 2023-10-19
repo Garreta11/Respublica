@@ -405,23 +405,6 @@ const Scene = ({texture, inView}) => {
     })
 
     const DisableRender = () => useFrame(() => null, 1000)
-
-    useEffect(() => {
-        const handleResize = () => {
-            /* if (window.innerWidth < 921) {
-                camera.position.set(0, 0, 500)
-                materialRef.current.uniforms.uSizeParticle.value = 1.;
-            } else {
-                camera.position.set(0, 0, 300)
-                materialRef.current.uniforms.uSizeParticle.value = 2.;
-            } */
-        }
-
-        window.addEventListener("resize", handleResize);
-        handleResize()
-
-        return () => window.removeEventListener("resize", handleResize); 
-    })
     
     return (
         <>

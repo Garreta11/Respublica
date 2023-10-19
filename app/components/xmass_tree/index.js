@@ -20,6 +20,8 @@ const Scene = ({ inView, tree, starTexture, start }) => {
     const [rotationImage, setRotationImage] = useState(0)
     const [isScrolling, setIsScrolling] = useState(false);
 
+    const [isMobile, setIsMobile] = useState(false)
+
     const variants = {
         hidden: { 
             scale: 0,
@@ -31,7 +33,7 @@ const Scene = ({ inView, tree, starTexture, start }) => {
         },
         starts: {
             scale: [1.5, 0.45, 0.45],
-            x: [0, 0, 2],
+            x: isMobile ? [0, 0, 0] : [0, 0, 2],
             y: [0, 0, 1.5],
             rotateX: [90 * Math.PI / 180, 90 * Math.PI / 180, 0]
         },
@@ -48,6 +50,7 @@ const Scene = ({ inView, tree, starTexture, start }) => {
         }
     }
 
+    // handleScroll
     useEffect(() => {
         let scrollTimeout;
         // Add scroll event listener when the component mounts
@@ -66,6 +69,20 @@ const Scene = ({ inView, tree, starTexture, start }) => {
         // Clean up the event listener when the component unmounts
         return () => {
           window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+
+    // handleResize
+    useEffect(() => {
+        const handleResize = () => {
+            (window.innerWidth < 921) ? setIsMobile(true) : setIsMobile(false)
+        }
+
+        handleResize()
+
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
         };
     }, []);
 
@@ -91,7 +108,7 @@ const Scene = ({ inView, tree, starTexture, start }) => {
             <pointLight position={-2} intensity={5}/>
             {starTexture && (
                 <motion.mesh
-                    position={[2, 2.3, 0]}
+                    position={isMobile ? [0, 2.3, 0] : [2, 2.3, 0]}
                     variants={variantsImage}
                     initial="hidden"
                     animate={start ? 'visible' : ''}

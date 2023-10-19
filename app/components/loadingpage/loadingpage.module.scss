@@ -7,6 +7,10 @@
     align-items: flex-end;
     justify-content: center;
 
+    @include sm {
+        position: absolute;
+    }
+
     &_stars {
         &_left {            
             position: absolute;
