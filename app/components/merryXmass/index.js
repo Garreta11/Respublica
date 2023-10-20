@@ -448,8 +448,8 @@ const Scene = ({texture, inView}) => {
                     transparent={true}
                     uTexture={texture}
                     uTextureSize={new THREE.Vector2(widthTexture, heightTexture)}
-                    uTouchAmplitude={isMobile ? 1. : 5.}
-                    uSizeParticle={isMobile ? 2. : 2.}
+                    uTouchAmplitude={isMobile ? 3. : 5.}
+                    uSizeParticle={isMobile ? 1.5 : 2.}
                     depthWrite={false}
                     sizeAttenuation={true}
                     emissive={"white"}
@@ -482,7 +482,7 @@ export default function  merryXmass( {texture} ) {
             <div className={styles.xmass_wrapper}>
                 <Canvas
                     orthographic={false}
-                    camera={{ position: [0, 0, 60] }}
+                    camera={{ position: [0, 0, 80] }}
                     fov={window.innerHeight / window.screen.height}
                     aspect={window.innerWidth / window.innerHeight}
                     dpr={1}
