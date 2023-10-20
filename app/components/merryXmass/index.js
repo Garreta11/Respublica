@@ -449,6 +449,7 @@ const Scene = ({texture, inView}) => {
                     uTexture={texture}
                     uTextureSize={new THREE.Vector2(widthTexture, heightTexture)}
                     uTouchAmplitude={isMobile ? 1. : 5.}
+                    uSizeParticle={isMobile ? 0.5 : 2.}
                     depthWrite={false}
                     sizeAttenuation={true}
                     emissive={"white"}
