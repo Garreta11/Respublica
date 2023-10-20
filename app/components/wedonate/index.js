@@ -26,14 +26,14 @@ export default function wedonate({ santa, treeTexture }) {
                 }}
                 ref={textRef}
             >
-                <Title text="Wir spenden, Sie falten!" button="Zum Video Tutorial" btnlink="#video"/>
+                <Title text="Sie falten, wir spenden !" button="Zum Video Tutorial" btnlink="#video"/>
                 
                 <div
                     className={styles.wedonate_text}
                 >
                     <p>Auch in diesem Jahr verteilt der respublica-Weihnachtsmann wieder seine Geschenke an diejenigen, die unsere Unterstützung benötigen: gemeinnützige Organisationen und Vereine.</p>
                     <br />
-                    <p>In diesem Sinne – ein frohes und friedliches Weihnachtsfest und alle Gute für 2024!</p>
+                    <p>In diesem Sinne – ein frohes und friedliches Weihnachtsfest und alles Gute für 2024!</p>
                 </div>
             </div>
 

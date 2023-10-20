@@ -14,6 +14,7 @@ export default function video() {
     const videoRef = useRef()
 
     const [heightVideo, setHeightVideo] = useState(0)
+    const [autoplayVideo, setAutoplayVideo] = useState(true)
 
     const [windowSize, setWindowSize] = useState({
         width: window.innerWidth,
@@ -27,6 +28,12 @@ export default function video() {
             width: window.innerWidth,
             height: window.innerHeight,
           });
+
+          if (window.innerWidth < 921) {
+            setAutoplayVideo(false)
+          } else {
+            setAutoplayVideo(true)
+          }
 
           videoRef.current.style.maxHeight = window.innerWidth  / (16/9) + "px";
         }
@@ -78,7 +85,7 @@ export default function video() {
                     ref={videoRef}
                     controls={true}
                     style={{height: heightVideo + "%"}}
-                    autoPlay
+                    autoPlay={autoplayVideo}
                     muted
                     loop
                 >

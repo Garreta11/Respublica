@@ -3,7 +3,8 @@
     background-color: var(--respublica-grey);
     width: 100vw;
     /* height: 100vh; */
-    height: calc(100vw * 180 / 320);
+    /* height: calc(100vw * 180 / 320); */
+    height: calc(100vw * 85 / 320);
 
     &_wrapper {
         margin: 0 auto;

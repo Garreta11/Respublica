@@ -369,7 +369,8 @@
   background-color: var(--respublica-grey);
   width: 100vw;
   /* height: 100vh; */
-  height: 56.25vw;
+  /* height: calc(100vw * 180 / 320); */
+  height: 26.5625vw;
 }
 .merryXmass_xmass_wrapper__Cl4dD {
   margin: 0 auto;

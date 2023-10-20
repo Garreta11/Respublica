@@ -45,7 +45,7 @@ export default function  loadingpage( { tree, showbtn, sendDataToParent } ) {
                     exit={{ translateX: -50, opacity: 0 }}
                     transition={transitionText}
                 >
-                    ALL I WANT FOR
+                    All I want for
                 </motion.p>
                 <motion.p
                     initial={{ translateX: 50, opacity: 0 }}
@@ -53,7 +53,7 @@ export default function  loadingpage( { tree, showbtn, sendDataToParent } ) {
                     exit={{ translateX: 50, opacity: 0 }}
                     transition={transitionText}
                 >
-                    CHRISTMAS IS YOU
+                    Christmas is you
                 </motion.p>
             </div>
             {showbtn && (
