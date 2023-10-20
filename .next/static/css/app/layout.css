@@ -136,6 +136,8 @@ button {
   color: var(--respublica-white);
   border: 1px solid var(--respublica-white);
   transition: all ease 0.3s;
+  font-size: 18px;
+  font-weight: 300;
 }
 button::after {
   content: url("/arrow--down-button.svg");

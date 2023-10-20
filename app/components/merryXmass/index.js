@@ -8,6 +8,7 @@ import * as THREE from 'three'
 import { useInView } from 'react-intersection-observer'
 
 import TouchTexture from "../touchtexture";
+import { handleClientScriptLoad } from 'next/script';
 
 const ParticleMaterial = shaderMaterial(
     { 
@@ -285,6 +286,8 @@ extend({ ParticleMaterial })
 const Scene = ({texture, inView}) => {
     const { gl, camera, mouse, size } = useThree();
 
+    const [isMobile, setIsMobile] = useState(false)
+
     const particlesRef = useRef()
     const materialRef = useRef()
     const touchRef = useRef()
@@ -405,10 +408,27 @@ const Scene = ({texture, inView}) => {
     })
 
     const DisableRender = () => useFrame(() => null, 1000)
+
+    // check width size
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth < 921) {
+                setIsMobile(true)
+            } else {
+                setIsMobile (false)
+            }
+        }
+        handleResize()
+
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+
+    }, [])
     
     return (
         <>
-            {/* <OrbitControls /> */}
 
             {inView ? <EnableRender /> : <DisableRender />}
 
@@ -428,6 +448,7 @@ const Scene = ({texture, inView}) => {
                     transparent={true}
                     uTexture={texture}
                     uTextureSize={new THREE.Vector2(widthTexture, heightTexture)}
+                    uTouchAmplitude={isMobile ? 1. : 5.}
                     depthWrite={false}
                     sizeAttenuation={true}
                     emissive={"white"}

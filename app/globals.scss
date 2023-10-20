@@ -69,12 +69,14 @@ button {
   align-items: center;
   gap: 10px;
   border-radius: 30px;
-  // background-color: transparent;
   background-color: var(--respublica-grey);
   color: var(--respublica-white);
   border: 1px solid var(--respublica-white);
 
   transition: all ease 0.3s;
+
+  font-size: 18px;
+  font-weight: 300;
 
   &::after {
     content: url('/arrow--down-button.svg');
@@ -86,7 +88,6 @@ button {
     background-color: var(--respublica-green);
     border: 1px solid var(--respublica-green);
     color: var(--respublica-white);
-    // transform: scale(1.05) !important;
   }
 
 }
