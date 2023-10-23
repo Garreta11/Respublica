@@ -90,7 +90,7 @@ const Scene = ({ inView, santa, treeTexture, shadow }) => {
 
             {shadow && (
                 <motion.mesh
-                    position={[0, -2.7, 0]}
+                    position={[0, -3, 0]}
                     scale={1}
                 >
                     <planeGeometry args={[3, 2]} />
@@ -101,7 +101,7 @@ const Scene = ({ inView, santa, treeTexture, shadow }) => {
             {santa && ( 
                 <motion.mesh
                     initial={{ scale: 0, opacity: 0 }}
-                    animate={{ scale: 0.8, opacity: 1 }}
+                    animate={{ scale: 0.9, opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={transition}
                     position={[0, 0, 0]}
