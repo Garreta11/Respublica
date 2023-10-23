@@ -36,6 +36,7 @@ export default function Home() {
   const [merryText, setMerryText] = useState()
   const [starTexture, setStarTexture] = useState()
   const [treeTexture, setTreeTexture] = useState()
+  const [shadow, setShadow] = useState()
 
   let loaders
   let toLoad
@@ -88,6 +89,10 @@ export default function Home() {
             if (source.name === 'treeTexture') {
               setTreeTexture(texture)
             }
+            if (source.name === 'shadow') {
+              setShadow(texture)
+              console.log(texture)
+            }
             sourceLoaded(source, texture);
           });
         }
@@ -117,14 +122,14 @@ export default function Home() {
       )}
         <MousePositionProvider>
                      
-          <Xmasstree tree={treeModel} starTexture={starTexture} start={start}/>
+          <Xmasstree tree={treeModel} starTexture={starTexture} start={start} shadow={shadow}/>
           
 
           {start && (
             <>
               <Header />
               <Intro />
-              <Wedonate santa={santaModel} treeTexture={treeTexture}/>
+              <Wedonate santa={santaModel} treeTexture={treeTexture} shadow={shadow} />
               <Video />
               <MerryXmass texture={merryText} />
               <Wishes />

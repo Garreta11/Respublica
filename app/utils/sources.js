@@ -24,4 +24,9 @@ export default [
         type: 'textureModel',
         path: '/merry-christmas.jpg'
     },
+    {
+        name: 'shadow',
+        type: 'textureModel',
+        path: '/shadow.png'
+    },
 ]

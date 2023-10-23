@@ -8,7 +8,15 @@
     left: 0;
 
     @include sm {
-        position: initial;
+        position: relative;
+        z-index: 1;
+        pointer-events: none !important;
+    }
+
+    *  {
+        @include sm {
+            pointer-events: none !important;
+        }
     }
 
 }

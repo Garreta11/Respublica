@@ -84,7 +84,14 @@
 }
 @media (max-width: 921px) {
   .xmass_tree_tree__upI1z {
-    position: initial;
+    position: relative;
+    z-index: 1;
+    pointer-events: none !important;
+  }
+}
+@media (max-width: 921px) {
+  .xmass_tree_tree__upI1z * {
+    pointer-events: none !important;
   }
 }
 /*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
@@ -182,6 +189,17 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+@media (max-width: 921px) {
+  .intro_intro_stars_img__i4_4S {
+    width: 100%;
+    height: 70%;
+    object-fit: cover;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 0;
+  }
 }
 .intro_intro_stars_rot__didO7 {
   position: absolute;

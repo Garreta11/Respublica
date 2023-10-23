@@ -8,7 +8,7 @@ import Santaclaus from "../santaclaus";
 import { useInView } from "framer-motion";
 import { useEffect, useRef } from "react";
 
-export default function wedonate({ santa, treeTexture }) {
+export default function wedonate({ santa, treeTexture, shadow }) {
 
     const textRef = useRef()
     const treeRef = useRef()
@@ -37,28 +37,7 @@ export default function wedonate({ santa, treeTexture }) {
                 </div>
             </div>
 
-
-            {/* <div
-                className={styles.wedonate_trees}
-                style={{
-                    transform: treeIsInView ? 'none' : 'translateY(100px)',
-                    opacity: treeIsInView ? 1 : 0,
-                    transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s"
-                }}
-                ref={treeRef}
-            >
-                <div className={styles.wedonate_trees_wrapper} >
-                    <img className={styles.wedonate_trees_star} src="star--green.svg" />
-                    <img src="tree--wireframe.svg" />
-                </div>
-                <div className={styles.wedonate_trees_wrapper} >
-                    <img className={styles.wedonate_trees_star} src="star--green.svg" />
-                    <img src="tree--wireframe.svg" />
-                </div>
-                
-            </div> */}
-
-            <Santaclaus santa={santa} treeTexture={treeTexture}/>
+            <Santaclaus santa={santa} treeTexture={treeTexture} shadow={shadow} />
 
         </div>
     )

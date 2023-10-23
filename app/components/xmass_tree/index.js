@@ -14,7 +14,7 @@ import { useInView } from 'react-intersection-observer'
 const transition = { duration: 5, ease: [0.43, 0.13, 0.23, 0.96] };
 const transitionImage = { duration: 2, delay: 5, ease: [0.43, 0.13, 0.23, 0.96] };
 
-const Scene = ({ inView, tree, starTexture, start }) => {
+const Scene = ({ inView, tree, starTexture, start, shadow }) => {
 
     const [rot, setRot] = useState(0)
     const [rotationImage, setRotationImage] = useState(0)
@@ -47,6 +47,17 @@ const Scene = ({ inView, tree, starTexture, start }) => {
         visible: {
             opacity: 1,
             scale: 0.5
+        }
+    }
+
+    const variantsShadow = {
+        hidden: {
+            opacity: 0,
+            scale: 0
+        },
+        visible: {
+            opacity: 1,
+            scale: 1
         }
     }
 
@@ -119,6 +130,20 @@ const Scene = ({ inView, tree, starTexture, start }) => {
                     <meshBasicMaterial transparent map={starTexture} />
                 </motion.mesh>
             )}
+
+            {shadow && (
+                <motion.mesh
+                    position={isMobile ? [0, -2.5, 0] : [2, -2.5, 0]}
+                    variants={variantsShadow}
+                    initial="hidden"
+                    animate={start ? 'visible' : ''}
+                    transition={transitionImage}
+                >
+                    <planeGeometry args={[3, 1]}/>
+                    <meshBasicMaterial transparent map={shadow} />
+                </motion.mesh>
+            )}
+
             {tree && ( 
                 <Suspense fallback={null}>
                     {/* Main */}
@@ -137,7 +162,7 @@ const Scene = ({ inView, tree, starTexture, start }) => {
     )
 }
 
-export default function  xmasstree( {tree, start, starTexture} ) {
+export default function  xmasstree( {tree, start, starTexture, shadow} ) {
 
     const { ref, inView } = useInView()
 
@@ -146,7 +171,7 @@ export default function  xmasstree( {tree, start, starTexture} ) {
     return(
         <div className={styles.tree} ref={ref}>
             <Canvas>
-                <Scene inView={inView} starTexture={starTexture} tree={tree} rotation={rotation} start={start}/>
+                <Scene inView={inView} starTexture={starTexture} tree={tree} rotation={rotation} start={start} shadow={shadow} />
             </Canvas>
         </div>
     )

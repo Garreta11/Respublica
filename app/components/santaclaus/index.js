@@ -15,7 +15,7 @@ import { OrbitControls } from "@react-three/drei";
 
 const transition = { duration: 3, ease: [0.43, 0.13, 0.23, 0.96] };
 
-export default function  santaclaus({santa, treeTexture}) {
+export default function  santaclaus({santa, treeTexture, shadow}) {
 
     const santaRef = useRef()
 
@@ -24,13 +24,13 @@ export default function  santaclaus({santa, treeTexture}) {
     return(
         <div className={styles.scene} ref={ref}>
             <Canvas className={styles.scene_canvas} ref={santaRef} >
-                <Scene inView={inView} santa={santa} treeTexture={treeTexture} />
+                <Scene inView={inView} santa={santa} treeTexture={treeTexture} shadow={shadow} />
             </Canvas>
         </div>
     )
 }
 
-const Scene = ({ inView, santa, treeTexture }) => {
+const Scene = ({ inView, santa, treeTexture, shadow }) => {
 
     const { viewport } = useThree();
 
@@ -68,6 +68,16 @@ const Scene = ({ inView, santa, treeTexture }) => {
 
             <Particlessnow />
 
+            {shadow && (
+                <motion.mesh
+                    position={[-4, -2.5, 0]}
+                    scale={1}
+                >
+                    <planeGeometry args={[2, 1]} />
+                    <meshBasicMaterial transparent map={shadow} />
+                </motion.mesh>
+            )}
+
             {treeTexture && (
                 <motion.mesh
                     position={[-4, -1, 0]}
@@ -78,10 +88,20 @@ const Scene = ({ inView, santa, treeTexture }) => {
                 </motion.mesh>
             )}
 
+            {shadow && (
+                <motion.mesh
+                    position={[0, -2.7, 0]}
+                    scale={1}
+                >
+                    <planeGeometry args={[3, 2]} />
+                    <meshBasicMaterial transparent map={shadow} />
+                </motion.mesh>
+            )}
+
             {santa && ( 
                 <motion.mesh
                     initial={{ scale: 0, opacity: 0 }}
-                    animate={{ scale: 0.9, opacity: 1 }}
+                    animate={{ scale: 0.8, opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={transition}
                     position={[0, 0, 0]}
@@ -89,6 +109,18 @@ const Scene = ({ inView, santa, treeTexture }) => {
                     rotation-x={smoothMouse.y}
                 >
                     <primitive object={santa.scenes[0]} />
+                </motion.mesh>
+            )}
+
+            
+
+            {shadow && (
+                <motion.mesh
+                    position={[4, -2.5, 0]}
+                    scale={1}
+                >
+                    <planeGeometry args={[2, 1]} />
+                    <meshBasicMaterial transparent map={shadow} />
                 </motion.mesh>
             )}
             
