@@ -15,7 +15,7 @@ export default function  header() {
             exit={{ translateY: -20, opacity: 0 }}
             transition={transition}
         >
-            <Link href='/'>
+            <Link href='https://respublica.de'>
                 <img src="/respublica--logo.svg" alt="Respublica Logo" />
             </Link>
         </motion.header>

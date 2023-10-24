@@ -9,7 +9,7 @@ const transition = { delay: 0, duration: 1, ease: [0.43, 0.13, 0.23, 0.96] };
 export default function  headerInit() {
     return(
         <header className={styles.header}>
-            <Link href='/'>
+            <Link href='https://respublica.de'>
                 <motion.img
                     initial={{ translateY: -20, opacity: 0 }}
                     animate={{ translateY: 0, opacity: 1 }}
