@@ -28,7 +28,7 @@ export default function  title({text, button, btnlink, download}) {
             </motion.h2>
 
             {button && ( // Check if the 'button' prop is defined
-                <Link href={btnlink} download onClick={scrollToSection}>
+                <Link href={btnlink} download target='_blank' onClick={scrollToSection}>
                     <button className={styles.title_btn}>
                         {button}
                     </button>

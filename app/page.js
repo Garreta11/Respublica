@@ -38,6 +38,8 @@ export default function Home() {
   const [treeTexture, setTreeTexture] = useState()
   const [shadow, setShadow] = useState()
 
+  const [isMobile, setIsMobile] = useState(false)
+
   let loaders
   let toLoad
   let items = {}
@@ -56,6 +58,23 @@ export default function Home() {
       requestAnimationFrame(raf)
     }
     requestAnimationFrame(raf)
+  }, [])
+
+  // check width size
+  useEffect(() => {
+    const handleResize = () => {
+        if (window.innerWidth < 921) {
+            setIsMobile(true)
+        } else {
+            setIsMobile (false)
+        }
+    }
+    handleResize()
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+        window.removeEventListener('resize', handleResize);
+    };
   }, [])
 
   const setLoaders = () => {
@@ -91,7 +110,6 @@ export default function Home() {
             }
             if (source.name === 'shadow') {
               setShadow(texture)
-              console.log(texture)
             }
             sourceLoaded(source, texture);
           });
@@ -131,7 +149,9 @@ export default function Home() {
               <Intro />
               <Wedonate santa={santaModel} treeTexture={treeTexture} shadow={shadow} />
               <Video />
-              <MerryXmass texture={merryText} />
+              {!isMobile && (
+                <MerryXmass texture={merryText} />
+              )}
               <Wishes />
               <AudioIcon/>
               <Footer />

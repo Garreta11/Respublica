@@ -88,6 +88,7 @@ export default function video() {
                     autoPlay={autoplayVideo}
                     muted
                     loop
+                    playsInline={true}
                 >
                     <source src="/video.mp4" type="video/mp4" />
                 </motion.video>

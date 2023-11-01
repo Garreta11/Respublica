@@ -275,7 +275,7 @@ const ParticleMaterial = shaderMaterial(
 
             gl_FragColor = color;
 
-            gl_FragColor.a *= circle(gl_PointCoord, 0.2);
+            gl_FragColor.a *= circle(gl_PointCoord, 0.5);
         }
     `
 )
@@ -285,8 +285,6 @@ extend({ ParticleMaterial })
 
 const Scene = ({texture, inView}) => {
     const { gl, camera, mouse, size } = useThree();
-
-    const [isMobile, setIsMobile] = useState(false)
 
     const particlesRef = useRef()
     const materialRef = useRef()
@@ -408,24 +406,6 @@ const Scene = ({texture, inView}) => {
     })
 
     const DisableRender = () => useFrame(() => null, 1000)
-
-    // check width size
-    useEffect(() => {
-        const handleResize = () => {
-            if (window.innerWidth < 921) {
-                setIsMobile(true)
-            } else {
-                setIsMobile (false)
-            }
-        }
-        handleResize()
-
-        window.addEventListener('resize', handleResize);
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-
-    }, [])
     
     return (
         <>
@@ -448,8 +428,8 @@ const Scene = ({texture, inView}) => {
                     transparent={true}
                     uTexture={texture}
                     uTextureSize={new THREE.Vector2(widthTexture, heightTexture)}
-                    uTouchAmplitude={isMobile ? 1.5 : 5.}
-                    uSizeParticle={isMobile ? 1. : 2.}
+                    uTouchAmplitude={10.}
+                    uSizeParticle={2.5}
                     depthWrite={false}
                     sizeAttenuation={true}
                     emissive={"white"}
